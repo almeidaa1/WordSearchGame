@@ -1,0 +1,241 @@
+body {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  margin: 0;
+  font-family: "Courier New", Courier, monospace;
+}
+
+/* Pagina Inicial */
+
+/*video de fundo*/
+#bgvideo {
+  opacity: 14%;
+  position: absolute;
+  width: 100%;
+}
+/* limita as bordas */
+.max-width {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: block;
+  position: relative;
+}
+/* Titulo "SOPA DE LETRAS" */
+.titulo {
+  font-size: 25px;
+  color: rgba(56, 58, 71);
+  text-align: center;
+}
+.titulo h1 {
+  display: inline-block;
+  border: 2.5px solid rgba(69, 71, 82);
+  padding: 15px 40px 15px 40px;
+  margin-top: 55px;
+  background-color: whitesmoke;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+/* "menu" com as opçoes (Novo Jogo, Ajuda)*/
+.menu {
+  font-size: 40px;
+  margin-top: 78px;
+  max-width: 100%;
+  text-align: center;
+  margin-bottom: 85px;
+}
+ul.options {
+  padding: 0;
+}
+/* mexer nas opçoes */
+.menu ul li {
+  margin-top: 40px;
+  list-style-type: none;
+}
+.menu a {
+  text-decoration: none;
+  color: rgba(59, 69, 84);
+  display: inline-block;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  background-color: whitesmoke;
+}
+#letra-n,
+#letra-j {
+  font-size: 50px;
+  color: #e68a00;
+}
+#letra-a {
+  font-size: 40px;
+  color: #e68a00;
+}
+.menu li a:hover {
+  border-right: 1px solid black;
+  border-left: 1px solid black;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.autores-titulo {
+  font-weight: bold;
+  color: #e68a00;
+  margin-bottom: 9px;
+}
+.autores-box {
+  text-align: center;
+}
+.autores-box a {
+  text-decoration: none;
+  color: black;
+}
+.autores-box a:hover {
+  font-weight: bold;
+}
+
+/* esconde pagina-inicil */
+/* .pagina-inicial {
+  display:none; <- A RETIRAR
+} */
+
+/* Modos de Jogo */
+
+.modos {
+  margin-top: 55px;
+  height: 455px;
+  border-right: 2px black solid;
+  width: 40%;
+}
+.titulo-modos {
+  margin: 20px 0 0 0px;
+  text-align: center;
+  font-size: 50px;
+}
+.letra-m,
+.letra-d,
+.letra-j {
+  color: #e68a00;
+}
+.modos-jogo {
+  font-size: 30px;
+  margin: 60px 0 0 0px;
+  text-align: center;
+}
+.escolher-modos {
+  list-style: none;
+  padding: 0;
+}
+#modo {
+  border: 1px solid black;
+  width: 47%;
+  transition: 0.55s;
+}
+.escolher-modos li a {
+  display: inline-block;
+  text-decoration: none;
+  color: black;
+}
+.intermedio {
+  padding: 55px 0 55px 0;
+}
+.simp {
+  background: -webkit-linear-gradient(transparent 50%, #33cc33 50%);
+  background-size: 230px 200px;
+}
+.simp:hover {
+  background-position: 0 80px;
+  color: white;
+}
+
+.inter {
+  background: -webkit-linear-gradient(transparent 50%, #ffa31a 50%);
+  background-size: 230px 200px;
+}
+
+.inter:hover {
+  background-position: 0 80px;
+  color: white;
+}
+.avan {
+  background: -webkit-linear-gradient(transparent 50%, crimson 50%);
+  background-size: 230px 200px;
+}
+.avan:hover {
+  background-position: 0 80px;
+  color: white;
+}
+.costumizar {
+  font-size: 30px;
+  text-align: right;
+  margin: 57px 50px 0 0;
+  background-color: #181b21;
+  padding-right: 30px;
+  cursor: pointer;
+  color: white;
+  clip-path: polygon(0 0, 97% 0, 94% 100%, 0% 100%);
+}
+
+/* Pre-Visualizaçao da Sopas de Letras conforme os modos */
+
+.pre-visualizacao {
+  position: relative;
+  float: right;
+  width: 59%;
+  height: 470px;
+  bottom: 445px;
+}
+#selecione {
+  position: absolute;
+  left: 50%;
+  top: 200px;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+  font-size: 25px;
+}
+#selecione span {
+  display: inline-block;
+  animation: animate 1s ease-in-out infinite;
+  animation-delay: calc(0.02s * var(--i));
+}
+@keyframes animate {
+  0% {
+    transform: translateY(0px);
+  }
+  20% {
+    transform: translateY(-20px);
+    color: crimson;
+  }
+  40%,
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* #selecione {
+    display: none;  <-- A RETIRAR
+} */
+
+.pre-view {
+  text-align: center;
+  /* display:none; <- A RETIRAR */
+}
+
+.start {
+  text-align: center;
+}
+.start-button {
+  text-decoration: none;
+  color: black;
+  border: 2px solid black;
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 25px;
+  padding: 5px 15px 5px 15px;
+}
+
+.palavras {
+  text-align: right;
+  width: 570px;
+  font-size: 20px;
+}
+
+.n-palavras {
+  font-weight: bold;
+}
