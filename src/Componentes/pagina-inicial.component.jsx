@@ -1,14 +1,12 @@
 import React from "react";
+import video from "../imagens&videos/letters_-_5157(Original).mp4";
 
 export default function PaginaInicial() {
   return (
     <>
       <div className="video">
-        <video id="bgvideo" autoplay loop muted playsinline>
-          <source
-            src="../imagens&videos/letters_-_5157(Original).mp4"
-            type="video/mp4"
-          />
+        <video id="bgvideo" autoPlay loop muted playsInline>
+          <source src={video} type="video/mp4" />
         </video>
       </div>
       <div className="max-width">

@@ -3,30 +3,31 @@ import React from "react";
 export default function Modos() {
   return (
     <>
-      <div class="titulo-modos">
-        <span class="letra-m">M</span>ODOS <span class="letra-d">D</span>E{" "}
-        <span class="letra-j">J</span>OGO
+      <div className="titulo-modos">
+        <span className="letra-m">M</span>ODOS{" "}
+        <span className="letra-d">D</span>E <span className="letra-j">J</span>
+        OGO
       </div>
-      <div class="modos-jogo">
-        <ul class="escolher-modos">
-          <li class="simples">
-            <a href="#" id="modo" class="simp">
-              <span class="difi">Simples</span>
+      <div className="modos-jogo">
+        <ul className="escolher-modos">
+          <li className="simples">
+            <a href="#" id="modo" className="simp">
+              <span className="difi">Simples</span>
             </a>
           </li>
-          <li class="intermedio">
-            <a href="#" id="modo" class="inter">
-              <span class="difi">Intermédio</span>
+          <li className="intermedio">
+            <a href="#" id="modo" className="inter">
+              <span className="difi">Intermédio</span>
             </a>
           </li>
-          <li class="avançado">
-            <a href="#" id="modo" class="avan">
-              <span class="difi">Avançado</span>
+          <li className="avançado">
+            <a href="#" id="modo" className="avan">
+              <span className="difi">Avançado</span>
             </a>
           </li>
         </ul>
       </div>
-      <div class="costumizar">Costumizar</div>
+      <div className="costumizar">Costumizar</div>
     </>
   );
 }

@@ -8,8 +8,10 @@ function App() {
     <div className="app">
       <PaginaInicial className="pagina-inicial" />
       <Modos className="modos" />
-      <PreVisualizarModos className="pre-visualizacao"/>
+      <PreVisualizarModos className="pre-visualizacao" />
     </div>
   );
 }
 export default App;
+
+// SELECIONAR A PALAVRA ARRASTANDO (react onDrag events)
