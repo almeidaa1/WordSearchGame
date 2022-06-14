@@ -1,4 +1,17 @@
 .titulo {
-    margin-top:25px;
+  margin-top: 25px;
 }
 
+.block {
+  background-color: white;
+  border: 1px solid black;
+  color: black;
+  padding: 3px;
+  height: 5vh;
+  width: 3vw;
+  cursor: pointer;
+}
+
+.canvas {
+  text-align: center;
+}
