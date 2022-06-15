@@ -1,5 +1,6 @@
 import React from "react";
 import video from "../imagens&videos/letters_-_5157(Original).mp4";
+import { Link } from "react-router-dom";
 
 export default function PaginaInicial() {
   return (
@@ -16,9 +17,9 @@ export default function PaginaInicial() {
         <div className="menu">
           <ul className="options">
             <li className="start-game">
-              <a href="#" id="jogar">
+              <Link to="/modos" id="jogar">
                 <span id="letra-n">N</span>ovo <span id="letra-j">J</span>ogo
-              </a>
+              </Link>
             </li>
             <li className="help">
               <a href="#">
@@ -33,13 +34,13 @@ export default function PaginaInicial() {
             Rui Almeida
           </a>{" "}
           <span>| </span>
-          <a href="https://github.com/CL0UDhxh" target="_blank">
-            David Leonel
-          </a>{" "}
-          <span>| </span>
           <a href="https://github.com/Rodri-Nascimento" target="_blank">
             Rodrigo Nascimento
           </a>
+          <span> | </span>
+          <a href="https://github.com/CL0UDhxh" target="_blank">
+            David Leonel
+          </a>{" "}
         </div>
       </div>
     </>

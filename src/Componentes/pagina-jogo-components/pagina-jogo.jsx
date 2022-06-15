@@ -4,16 +4,15 @@ import Timer from "./timer";
 export default function SopaLetras() {
   const [currentLevel, setLevel] = useState(null);
   const [listOfWords, setListOfWords] = useState([
-    "WORDS",
-    "OLA",
-    "SIM",
-    "RUI",
-    "MAÇA",
+    // "WORDS",
+    // "OLA",
+    // "SIM",
+    // "RUI",
+    // "MAÇA",
   ]);
 
   const niveis = ["facil", "intermedio", "dificil"];
   const abcd = "abcdefghijklmnopqrstuvwxyzç";
-  const posicoes = [];
 
   let canvas;
   let rows, columns;
@@ -23,16 +22,16 @@ export default function SopaLetras() {
   const sizeCanvas = (level) => {
     switch (level) {
       case 1:
-        rows = 5;
-        columns = 5;
-        break;
-      case 2:
         rows = 8;
         columns = 8;
         break;
+      case 2:
+        rows = 12;
+        columns = 12;
+        break;
       case 3:
-        rows = 15;
-        columns = 15;
+        rows = 16;
+        columns = 16;
         break;
       default:
         rows = 0;
@@ -78,7 +77,7 @@ export default function SopaLetras() {
     // Adciciona As Letras De Forma Random Caso O Conteudo Na Html Na Posiçao Seja Vazio
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < columns; j++) {
-        if (soup[i][j].innerHTML.trim() == "")
+        if (soup[i][j].innerHTML.trim() === "")
           soup[i][j].innerHTML = randomLetters();
       }
     }
@@ -135,8 +134,8 @@ export default function SopaLetras() {
           for (
             ;
             x < word.length &&
-            (jogo[auxRow][auxColumn + x].innerHTML.trim() == "" ||
-              jogo[auxRow][auxColumn + x].innerHTML == word[x]); // para puder sobrepor a mesma letra da outra palavra
+            (jogo[auxRow][auxColumn + x].innerHTML.trim() === "" ||
+              jogo[auxRow][auxColumn + x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra
             x++
           );
       } while (x !== word.length);
@@ -158,8 +157,8 @@ export default function SopaLetras() {
           for (
             ;
             x < word.length &&
-            (jogo[auxRow][auxColumn - x].innerHTML.trim() == "" ||
-              jogo[auxRow][auxColumn - x].innerHTML == word[x]); // para puder sobrepor a mesma letra da outra palavra
+            (jogo[auxRow][auxColumn - x].innerHTML.trim() === "" ||
+              jogo[auxRow][auxColumn - x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra
             x++
           );
       } while (x !== word.length);
@@ -181,8 +180,8 @@ export default function SopaLetras() {
           for (
             ;
             x < word.length &&
-            (jogo[auxRow + x][auxColumn].innerHTML.trim() == "" ||
-              jogo[auxRow + x][auxColumn].innerHTML == word[x]); // para puder sobrepor a mesma letra da outra palavra
+            (jogo[auxRow + x][auxColumn].innerHTML.trim() === "" ||
+              jogo[auxRow + x][auxColumn].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra
             x++
           );
       } while (x !== word.length);
@@ -204,8 +203,8 @@ export default function SopaLetras() {
           for (
             ;
             x < word.length &&
-            (jogo[auxRow - x][auxColumn].innerHTML.trim() == "" ||
-              jogo[auxRow - x][auxColumn].innerHTML == word[x]); // para puder sobrepor a mesma letra da outra palavra
+            (jogo[auxRow - x][auxColumn].innerHTML.trim() === "" ||
+              jogo[auxRow - x][auxColumn].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra
             x++
           );
       } while (x !== word.length);
@@ -226,8 +225,8 @@ export default function SopaLetras() {
           for (
             ;
             x < word.length &&
-            (jogo[auxRow + x][auxColumn + x].innerHTML.trim() == "" ||
-              jogo[auxRow + x][auxColumn + x].innerHTML == word[x]); // para puder sobrepor a mesma letra da outra palavra;
+            (jogo[auxRow + x][auxColumn + x].innerHTML.trim() === "" ||
+              jogo[auxRow + x][auxColumn + x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra;
             x++
           );
       } while (x !== word.length);
@@ -248,8 +247,8 @@ export default function SopaLetras() {
           for (
             ;
             x < word.length &&
-            (jogo[auxRow - x][auxColumn - x].innerHTML.trim() == "" ||
-              jogo[auxRow - x][auxColumn - x].innerHTML == word[x]); // para puder sobrepor a mesma letra da outra palavra;
+            (jogo[auxRow - x][auxColumn - x].innerHTML.trim() === "" ||
+              jogo[auxRow - x][auxColumn - x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra;
             x++
           );
       } while (x !== word.length);
@@ -270,8 +269,8 @@ export default function SopaLetras() {
           for (
             ;
             x < word.length &&
-            (jogo[auxRow + x][auxColumn - x].innerHTML.trim() == "" ||
-              jogo[auxRow + x][auxColumn - x].innerHTML == word[x]); // para puder sobrepor a mesma letra da outra palavra;
+            (jogo[auxRow + x][auxColumn - x].innerHTML.trim() === "" ||
+              jogo[auxRow + x][auxColumn - x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra;
             x++
           );
       } while (x !== word.length);
@@ -292,8 +291,8 @@ export default function SopaLetras() {
           for (
             ;
             x < word.length &&
-            (jogo[auxRow - x][auxColumn + x].innerHTML.trim() == "" ||
-              jogo[auxRow - x][auxColumn + x].innerHTML == word[x]); // para puder sobrepor a mesma letra da outra palavra;
+            (jogo[auxRow - x][auxColumn + x].innerHTML.trim() === "" ||
+              jogo[auxRow - x][auxColumn + x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra;
             x++
           );
       } while (x !== word.length);
@@ -317,7 +316,7 @@ export default function SopaLetras() {
             {nivel}{" "}
           </button>
         ))}
-        <Timer />
+        {/* <Timer /> */}
         <div className="canvas"></div>
       </div>
     </>

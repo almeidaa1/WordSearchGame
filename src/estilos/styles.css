@@ -89,11 +89,6 @@ ul.options {
   font-weight: bold;
 }
 
-/* esconde pagina-inicil */
-/* .pagina-inicial {
-  display:none; <- A RETIRAR
-} */
-
 /* Modos de Jogo */
 
 .modos {
@@ -180,7 +175,7 @@ ul.options {
   height: 470px;
   bottom: 445px;
 }
-#selecione {
+.selecione {
   position: absolute;
   left: 50%;
   top: 200px;
@@ -189,7 +184,7 @@ ul.options {
   text-align: center;
   font-size: 25px;
 }
-#selecione span {
+.selecione span {
   display: inline-block;
   animation: animate 1s ease-in-out infinite;
   animation-delay: calc(0.02s * var(--i));
@@ -208,13 +203,8 @@ ul.options {
   }
 }
 
-/* #selecione {
-    display: none;  <-- A RETIRAR
-} */
-
 .pre-view {
   text-align: center;
-  /* display:none; <- A RETIRAR */
 }
 
 .start {
@@ -238,4 +228,8 @@ ul.options {
 
 .n-palavras {
   font-weight: bold;
+}
+
+.hidden {
+  display: none;
 }
