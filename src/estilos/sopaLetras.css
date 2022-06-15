@@ -2,7 +2,7 @@
   margin-top: 25px;
 }
 
-.block {
+.letra {
   background-color: white;
   border: 1px solid black;
   color: black;
@@ -14,4 +14,11 @@
 
 .canvas {
   text-align: center;
+}
+
+.timer {
+  margin: 2% 10% 0% 10%;
+  padding-left: 2vw;
+  border: 1px solid black;
+  border-radius: 5px;
 }

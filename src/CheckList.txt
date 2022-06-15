@@ -1,0 +1,23 @@
+******************
++ Sopa De Letras +
+******************
+-----------------------------------------< A FAZER >----------------------------------------
+
+=> +ou- Palavras Conforme O Nivel (ver se cabem na sopa)
+
+--------------------------------------------------------------------------------------------
+=> Criaçao Da Sopa De Forma Dinamica Dependendo Do Modo Escolhido Pelo Utilizador                         /*DONE*/
+=> Preencher A Sopa Com Palavras Em Posiçoes Aleatorias Sem Que Haja SobrePosiçao Das Mesmas              /*DONE*/  <== Dificil
+=> Permitir Que Haja SobrePosiçao De Letras Caso Estas Sejam Iguais                                       /*DONE*/ 
+=> Prencher Os Restantos Espaços Em "Branco" Da Sopa Com Letras Aleatorias                                /*DONE*/
+
+
+**********
++ OUTROS +
+**********
+-----------------------------------------< A FAZER >----------------------------------------
+
+=> Single Page Application Utilizando O Router React (video)
+
+--------------------------------------------------------------------------------------------
+
