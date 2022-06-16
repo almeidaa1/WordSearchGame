@@ -1,5 +1,5 @@
 import PaginaInicial from "./Componentes/pagina-inicial.component";
-import Modos from "./Componentes/modos.component";
+import useModos from "./Componentes/modos.component";
 import PaginaJogo from "./Componentes/pagina-jogo-components/pagina-jogo";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
@@ -7,7 +7,7 @@ import "./estilos/styles.css";
 import "./estilos/sopaLetras.css";
 
 function App() {
-  let modo;
+  const { render, rowsColumns, numberOfWords, timer } = useModos();
 
   return (
     <Router>
@@ -16,11 +16,12 @@ function App() {
           <Route exact path="/">
             <PaginaInicial className="pagina-inicial" />
           </Route>
-          <Route path="/modos">
-            <Modos modo={modo} />
-          </Route>
-          <Route>
-            <PaginaJogo className="jogo" />
+          <Route path="/modos">{render}</Route>
+          <Route path="/Sopa-Letras">
+            <PaginaJogo
+              className="jogo"
+              {...{ rowsColumns, numberOfWords, timer }}
+            />
           </Route>
         </Switch>
       </div>

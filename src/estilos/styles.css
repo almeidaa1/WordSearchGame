@@ -172,8 +172,8 @@ ul.options {
   position: relative;
   float: right;
   width: 59%;
-  height: 470px;
-  bottom: 445px;
+  bottom: 81vh;
+  right: 10px;
 }
 .selecione {
   position: absolute;
@@ -222,12 +222,16 @@ ul.options {
 
 .palavras {
   text-align: right;
-  width: 570px;
+  width: 46.8vw;
   font-size: 20px;
+  color: #ffa31a;
+  font-weight: bold;
+  margin-bottom:3px;
 }
 
 .n-palavras {
   font-weight: bold;
+  color: black;
 }
 
 .hidden {

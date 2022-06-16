@@ -3,6 +3,8 @@
 ******************
 -----------------------------------------< A FAZER >----------------------------------------
 
+=> Mandar Email Ao Stor A Pedir Para Fazer Um Aula Para Duvidas Do Trabalho Prático
+=> Ver Melhor Possibilidade De Construçao De Grid
 => +ou- Palavras Conforme O Nivel (ver se cabem na sopa)
 
 --------------------------------------------------------------------------------------------
@@ -17,7 +19,8 @@
 **********
 -----------------------------------------< A FAZER >----------------------------------------
 
-=> Single Page Application Utilizando O Router React (video)
+=> Deixar O Botao Costumizar Funcional
 
 --------------------------------------------------------------------------------------------
+=> Single Page Application Utilizando O Router React (video)                                             /*DONE*/
 

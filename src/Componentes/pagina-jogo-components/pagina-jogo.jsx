@@ -1,8 +1,7 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useRef } from "react";
 import Timer from "./timer";
 
-export default function SopaLetras() {
-  const [currentLevel, setLevel] = useState(null);
+export default function SopaLetras({ rowsColumns, numberOfWords, timer }) {
   const [listOfWords, setListOfWords] = useState([
     // "WORDS",
     // "OLA",
@@ -10,37 +9,12 @@ export default function SopaLetras() {
     // "RUI",
     // "MAÇA",
   ]);
-
-  const niveis = ["facil", "intermedio", "dificil"];
-  const abcd = "abcdefghijklmnopqrstuvwxyzç";
-
-  let canvas;
-  let rows, columns;
+  // const [auxRow, setAuxRow] = useState(-1);
+  // const [auxColumn, setAuxColumn] = useState(-1);
   let auxRow, auxColumn;
-
-  // ATRIBUI AS LINAHS E COLUNAS CONSOANTE O MODO DE JOGO
-  const sizeCanvas = (level) => {
-    switch (level) {
-      case 1:
-        rows = 8;
-        columns = 8;
-        break;
-      case 2:
-        rows = 12;
-        columns = 12;
-        break;
-      case 3:
-        rows = 16;
-        columns = 16;
-        break;
-      default:
-        rows = 0;
-        columns = 0;
-        break;
-    }
-
-    return [rows, columns];
-  };
+  const abcd = "abcdefghijklmnopqrstuvwxyzç";
+  const rows = rowsColumns,
+    columns = rowsColumns;
 
   // RETURNA UM VALOR RANDOM PARA SE PUDER IR A STRING ABCD E SELECIONAR ALEATORIAMENTE UMA LETRA DA STRING PARA PREENCHER A SOPA
   const randomLetters = () => {
@@ -48,13 +22,8 @@ export default function SopaLetras() {
   };
 
   // CRIA A SOUPA DE LETRAS PREENCHENDO-A COM LETRAS
-  const criaCanvas = (index) => {
-    setLevel(index + 1);
-    // [rows, columns] = sizeCanvas(currentLevel);  <- CurrentLevel, esta atrasado no tempo (usar useEffect maybe)
-    [rows, columns] = sizeCanvas(index + 1);
-
+  const createCanvas = () => {
     let canvas = document.querySelector(".canvas");
-
     let breakButtons = document.createElement("br");
     canvas.appendChild(breakButtons);
 
@@ -64,6 +33,7 @@ export default function SopaLetras() {
       soup[i] = [];
       for (let j = 0; j < columns; j++) {
         let block = document.createElement("button");
+        console.log(block);
         soup[i][j] = block;
         block.className = "letra";
         canvas.appendChild(block);
@@ -81,14 +51,12 @@ export default function SopaLetras() {
           soup[i][j].innerHTML = randomLetters();
       }
     }
-    return soup;
   };
 
   // ADICIONA À SOPA DE LETRAS AS PALAVRAS ALTEATORIA CONSOANTE A STRING WORDS
   const addWordsToSoup = (jogo) => {
     listOfWords.forEach((word) => {
       let position = Math.floor(Math.random() * 8);
-      // let position = 2;
 
       for (let i = 0; i < word.length; i++) {
         switch (position) {
@@ -120,7 +88,6 @@ export default function SopaLetras() {
       }
     });
   };
-
   const leftToRight = (jogo, word, i) => {
     if (!i) {
       let x = 0;
@@ -305,17 +272,7 @@ export default function SopaLetras() {
   return (
     <>
       <div className="jogo-principal">
-        {niveis.map((nivel, index) => (
-          <button
-            key={index}
-            onClick={() => {
-              canvas = criaCanvas(index);
-            }}
-          >
-            {" "}
-            {nivel}{" "}
-          </button>
-        ))}
+        <button onClick={createCanvas}>CreateCanvas</button>
         {/* <Timer /> */}
         <div className="canvas"></div>
       </div>
