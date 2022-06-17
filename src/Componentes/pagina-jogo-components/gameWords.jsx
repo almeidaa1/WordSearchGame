@@ -5,14 +5,14 @@ export default function gameWords({ listOfWords, numberOfWords }) {
     <>
       <div className="block-words">
         <span className="n-words">
-          Palavras: <span className="number">{numberOfWords}</span>
+          <span className="number">{numberOfWords}</span> Palavras
         </span>
         <div className="list">
           {listOfWords.map((word, index) => (
-            <p key={index} className={word + "-" + index}>
+            <span key={index} className={word + "-" + index}>
               {" "}
               {word}{" "}
-            </p>
+            </span>
           ))}
         </div>
       </div>
