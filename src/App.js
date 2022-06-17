@@ -18,10 +18,7 @@ function App() {
           </Route>
           <Route path="/modos">{render}</Route>
           <Route path="/Sopa-Letras">
-            <PaginaJogo
-              className="jogo"
-              {...{ rowsColumns, numberOfWords, timer }}
-            />
+            <PaginaJogo {...{ rowsColumns, numberOfWords, timer }} />
           </Route>
         </Switch>
       </div>

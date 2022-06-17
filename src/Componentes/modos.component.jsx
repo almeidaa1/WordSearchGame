@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import avanMode from "../imagens&videos/avancado.jpg";
+import avanModeImg from "../imagens&videos/avancado.jpg";
 
 function useModos() {
   const [isHovering, setIsHovering] = useState(false); // o modo que foi passado (quando passado isHovering fica com a class desse botao, nao clicado = false)
@@ -9,6 +9,7 @@ function useModos() {
   const [numberOfWords, setNumberOfWords] = useState(0);
   const [rowsColumns, setRowsColumns] = useState(0); // numero de linhas e colunas
   const [timer, setTimer] = useState(0);
+  const [formatTimer, setFormatTimer] = useState(0);
 
   const handleMouseEnter = (e) => {
     let currentMode = e.currentTarget.className;
@@ -64,6 +65,13 @@ function useModos() {
     modeButton.style.color = "white";
   };
 
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    let seconds = time % 60;
+
+    return `${minutes}:${seconds}`;
+  };
+
   const permaColourMode = (currentMode) => {
     let modeButton = document.querySelector("." + currentMode);
     switch (currentMode) {
@@ -114,7 +122,6 @@ function useModos() {
             <ul className="escolher-modos">
               <li className="simples">
                 <a
-                  href="#"
                   id="modo"
                   className="simp"
                   onMouseEnter={(e) => handleMouseEnter(e)}
@@ -126,7 +133,6 @@ function useModos() {
               </li>
               <li className="intermedio">
                 <a
-                  href="#"
                   id="modo"
                   className="inter"
                   onMouseEnter={(e) => handleMouseEnter(e)}
@@ -138,7 +144,6 @@ function useModos() {
               </li>
               <li className="avançado">
                 <a
-                  href="#"
                   id="modo"
                   className="avan"
                   onMouseEnter={(e) => handleMouseEnter(e)}
@@ -179,10 +184,15 @@ function useModos() {
             <span style={{ "--i": 23 }}>.</span>
           </div>
           <div className={`pre-view ${isHovering ? "" : "hidden"}`}>
-            <div className="palavras">
-              Palavras <span className="n-palavras">: {numberOfWords}</span>
+            <div className="info-game">
+              <span id="tempo">
+                {/* Tempo <span className="n-time">:  </span> */}
+              </span>
+              <span id="palavras">
+                Palavras <span className="n-palavras">: {numberOfWords}</span>
+              </span>
             </div>
-            <img src={avanMode} alt="" width="450vw" height="350vh" />
+            <img src={avanModeImg} alt="" width="450vw" height="350vh" />
             <div className="start">
               <Link to="/Sopa-Letras" className="start-button">
                 Começar Jogo

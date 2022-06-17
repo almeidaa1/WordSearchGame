@@ -120,6 +120,7 @@ ul.options {
   border: 1px solid black;
   width: 47%;
   transition: 0.55s;
+  cursor: pointer;
 }
 .escolher-modos li a {
   display: inline-block;
@@ -216,17 +217,25 @@ ul.options {
   border: 2px solid black;
   display: inline-block;
   margin-top: 10px;
-  font-size: 25px;
+  font-size: 2vw;
   padding: 5px 15px 5px 15px;
 }
 
-.palavras {
-  text-align: right;
+.info-game {
+  display: inline-block;
   width: 46.8vw;
-  font-size: 20px;
+  font-size: 1.6vw;
   color: #ffa31a;
   font-weight: bold;
-  margin-bottom:3px;
+  margin-bottom: 3px;
+}
+
+#tempo {
+  margin-right: 9vw;
+}
+
+.n-time {
+  color: black;
 }
 
 .n-palavras {

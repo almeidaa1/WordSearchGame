@@ -1,20 +1,139 @@
-.letra {
-  background-color: white;
-  border: 1px solid black;
-  color: black;
-  padding: 3px;
-  height: 5vh;
-  width: 3vw;
-  cursor: pointer;
+html {
+  height: 100%;
+  width: 100%;
+}
+
+.pagina-jogo-principal {
+  display: flex;
+  justify-content: space-between;
 }
 
 .canvas {
+  /* position: absolute; */
+  left: 27%;
+  transform: translate(-10%, 0);
+  margin-top: 5%;
+}
+
+.letra {
+  background-color: white;
+  all: unset;
+  color: black;
+  padding: 3px;
+  height: 20px;
+  width: 2.5vw;
+  cursor: pointer;
+}
+
+.n-words {
+  font-size: 19px;
+  color: #ffa31a;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+}
+.number {
+  padding-left: 5px;
+  color: black;
+}
+
+.block-words {
+  margin-right: 5vw;
+  margin-top: 7%;
+  float: right;
+}
+
+.list {
+  margin-top: 20px;
+  position: relative;
+  width: 16vw;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 10px;
+  flex-direction: column;
+}
+
+.list::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  background: white;
+}
+.list::before {
+  content: " ";
+  position: absolute;
+  width: 150px;
+  height: 140%;
+  background: linear-gradient(black, #ffa31a);
+  animation: animate 8s linear infinite;
+}
+
+@keyframes animate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.list p {
+  position: relative;
+  color: black;
+  font-size: 20px;
+  z-index: 10;
+  margin: 0;
+  text-align: start;
+}
+
+/*TIMERRRR*/
+
+.base-timer {
+  position: relative;
+  display: inline-block;
+  margin-left: 2%;
+  margin-right: 11%;
+  top: 33vh;
+  width: 13vw;
+  height: 13vw;
   text-align: center;
 }
 
-.timer {
-  margin: 2% 10% 0% 10%;
-  padding-left: 2vw;
-  border: 1px solid black;
-  border-radius: 5px;
+.base-timer__svg {
+  transform: scaleX(-1); /*meter arredondado*/
+}
+
+.base-timer__circle {
+  fill: none;
+  stroke: none;
+}
+
+.base-timer__path-elapsed {
+  stroke-width: 7px;
+  stroke: gray;
+}
+
+.base-timer__path-remaining {
+  stroke-width: 7px;
+  stroke-linecap: round;
+  transform: rotate(90deg);
+  transform-origin: center;
+  transition: 1s linear all;
+  fill-rule: nonzero;
+  stroke: #ffa31a;
+}
+
+.base-timer__label {
+  cursor: pointer;
+  position: absolute;
+  width: 13vw;
+  height: 13vw;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.3vw;
 }
