@@ -90,7 +90,6 @@ ul.options {
 }
 
 /* Modos de Jogo */
-
 .modos {
   margin-top: 55px;
   height: 455px;
@@ -176,6 +175,7 @@ ul.options {
   bottom: 81vh;
   right: 10px;
 }
+
 .selecione {
   position: absolute;
   left: 50%;
@@ -216,31 +216,37 @@ ul.options {
   color: black;
   border: 2px solid black;
   display: inline-block;
-  margin-top: 10px;
+  margin-top: 15px;
   font-size: 2vw;
-  padding: 5px 15px 5px 15px;
+  padding: 3px 30px 3px 30px;
 }
 
 .info-game {
   display: inline-block;
   width: 46.8vw;
-  font-size: 1.6vw;
+  font-size: 1.4vw;
   color: #ffa31a;
-  font-weight: bold;
-  margin-bottom: 3px;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 #tempo {
-  margin-right: 9vw;
+  margin-right: 11vw;
 }
 
 .n-time {
   color: black;
+  text-decoration: underline;
 }
 
 .n-palavras {
-  font-weight: bold;
   color: black;
+  text-decoration: underline;
+}
+
+.imgModos {
+  border: 0.1px solid black;
+  box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.2);
 }
 
 .hidden {

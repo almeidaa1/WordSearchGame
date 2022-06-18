@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function gameWords({ listOfWords, numberOfWords }) {
+export default function gameWords({ newList, numberOfWords }) {
   return (
     <>
       <div className="block-words">
@@ -8,7 +8,7 @@ export default function gameWords({ listOfWords, numberOfWords }) {
           <span className="number">{numberOfWords}</span> Palavras
         </span>
         <div className="list">
-          {listOfWords.map((word, index) => (
+          {newList.map((word, index) => (
             <span key={index} className={word + "-" + index}>
               {" "}
               {word}{" "}

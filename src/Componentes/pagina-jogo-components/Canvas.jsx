@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import blankImg from "../../imagens&videos/blankExcla.jpg";
 
-export default function Canvas({
-  rowsColumns,
-  numberOfWords,
-  listOfWords,
-  startGame,
-}) {
+export default function Canvas({ rowsColumns, newList, startGame }) {
   let auxRow, auxColumn;
   const abcd = "abcdefghijklmnopqrstuvwxyzç";
   const rows = rowsColumns,
@@ -26,7 +22,6 @@ export default function Canvas({
       soup[i] = [];
       for (let j = 0; j < columns; j++) {
         let block = document.createElement("button");
-        console.log(block);
         soup[i][j] = block;
         block.className = "letra";
         canvas.appendChild(block);
@@ -48,223 +43,219 @@ export default function Canvas({
 
   // ADICIONA À SOPA DE LETRAS AS PALAVRAS ALTEATORIA CONSOANTE A STRING WORDS
   const addWordsToSoup = (jogo) => {
-    listOfWords.forEach((word) => {
-      let position = Math.floor(Math.random() * 8);
-
+    let position = Math.floor(Math.random() * 8);
+    newList.forEach((word) => {
       for (let i = 0; i < word.length; i++) {
         switch (position) {
           case 0:
-            leftToRight(jogo, word, i);
+            i = leftToRight(jogo, word, i);
             break;
           case 1:
-            rightToLeft(jogo, word, i);
+            i = rightToLeft(jogo, word, i);
             break;
           case 2:
-            topToBottom(jogo, word, i);
+            i = topToBottom(jogo, word, i);
             break;
           case 3:
-            bottomToTop(jogo, word, i);
+            i = bottomToTop(jogo, word, i);
             break;
           case 4:
-            leftDiagonalTopToBottom(jogo, word, i);
+            i = leftDiagonalTopToBottom(jogo, word, i);
             break;
           case 5:
-            leftDiagonalBottomToTop(jogo, word, i);
+            i = leftDiagonalBottomToTop(jogo, word, i);
             break;
           case 6:
-            rightDiagonalTopToBottom(jogo, word, i);
+            i = rightDiagonalTopToBottom(jogo, word, i);
             break;
           case 7:
-            rightDiagonalBottomToTop(jogo, word, i);
+            i = rightDiagonalBottomToTop(jogo, word, i);
             break;
         }
+        if (i == -1) position = Math.floor(Math.random() * 8);
       }
     });
   };
   const leftToRight = (jogo, word, i) => {
     if (!i) {
       let x = 0;
-      do {
-        x = 0;
-        auxRow = Math.floor(Math.random() * rows);
-        auxColumn = Math.floor(Math.random() * columns);
+      auxRow = Math.floor(Math.random() * rows);
+      auxColumn = Math.floor(Math.random() * columns);
 
-        if (word.length + auxColumn <= columns)
-          // Percorre todo o local onde supostamente a palavra vai ficar e verifica se e permitada ou nao
-          for (
-            ;
-            x < word.length &&
-            (jogo[auxRow][auxColumn + x].innerHTML.trim() === "" ||
-              jogo[auxRow][auxColumn + x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra
-            x++
-          );
-      } while (x !== word.length);
+      if (word.length + auxColumn <= columns)
+        // Percorre todo o local onde supostamente a palavra vai ficar e verifica se e permitada ou nao
+        for (
+          ;
+          x < word.length &&
+          (jogo[auxRow][auxColumn + x].innerHTML.trim() === "" ||
+            jogo[auxRow][auxColumn + x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra
+          x++
+        );
+      if (x !== word.length) return -1; // para
     }
     // coloca as palavras da esquerda para a direita
     jogo[auxRow][auxColumn + i].innerHTML = word[i];
-    jogo[auxRow][auxColumn + i].style.color = "green";
+    // jogo[auxRow][auxColumn + i].style.color = "green";
+    return i;
   };
 
   const rightToLeft = (jogo, word, i) => {
     if (!i) {
       let x = 0;
-      do {
-        x = 0;
-        auxRow = Math.floor(Math.random() * rows);
-        auxColumn = Math.floor(Math.random() * columns);
+      auxRow = Math.floor(Math.random() * rows);
+      auxColumn = Math.floor(Math.random() * columns);
 
-        if (auxColumn + 1 - word.length >= 0)
-          for (
-            ;
-            x < word.length &&
-            (jogo[auxRow][auxColumn - x].innerHTML.trim() === "" ||
-              jogo[auxRow][auxColumn - x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra
-            x++
-          );
-      } while (x !== word.length);
+      if (auxColumn + 1 - word.length >= 0)
+        for (
+          ;
+          x < word.length &&
+          (jogo[auxRow][auxColumn - x].innerHTML.trim() === "" ||
+            jogo[auxRow][auxColumn - x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra
+          x++
+        );
+      if (x !== word.length) return -1;
     }
     // coloca as palavras da direita para a esquerda
     jogo[auxRow][auxColumn - i].innerHTML = word[i];
-    jogo[auxRow][auxColumn - i].style.color = "red";
+    // jogo[auxRow][auxColumn - i].style.color = "red";
+    return i;
   };
 
   const topToBottom = (jogo, word, i) => {
     if (!i) {
       let x = 0;
-      do {
-        x = 0;
-        auxRow = Math.floor(Math.random() * rows);
-        auxColumn = Math.floor(Math.random() * columns);
+      auxRow = Math.floor(Math.random() * rows);
+      auxColumn = Math.floor(Math.random() * columns);
 
-        if (word.length + auxRow <= rows)
-          for (
-            ;
-            x < word.length &&
-            (jogo[auxRow + x][auxColumn].innerHTML.trim() === "" ||
-              jogo[auxRow + x][auxColumn].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra
-            x++
-          );
-      } while (x !== word.length);
+      if (word.length + auxRow <= rows)
+        for (
+          ;
+          x < word.length &&
+          (jogo[auxRow + x][auxColumn].innerHTML.trim() === "" ||
+            jogo[auxRow + x][auxColumn].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra
+          x++
+        );
+      if (x !== word.length) return -1;
     }
     // coloca as palavras de cima para baixo
     jogo[auxRow + i][auxColumn].innerHTML = word[i];
-    jogo[auxRow + i][auxColumn].style.color = "blue";
+    // jogo[auxRow + i][auxColumn].style.color = "blue";
+    return i;
   };
 
   const bottomToTop = (jogo, word, i) => {
     if (!i) {
       let x = 0;
-      do {
-        x = 0;
-        auxRow = Math.floor(Math.random() * rows);
-        auxColumn = Math.floor(Math.random() * columns);
+      auxRow = Math.floor(Math.random() * rows);
+      auxColumn = Math.floor(Math.random() * columns);
 
-        if (auxRow + 1 - word.length >= 0)
-          for (
-            ;
-            x < word.length &&
-            (jogo[auxRow - x][auxColumn].innerHTML.trim() === "" ||
-              jogo[auxRow - x][auxColumn].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra
-            x++
-          );
-      } while (x !== word.length);
+      if (auxRow + 1 - word.length >= 0)
+        for (
+          ;
+          x < word.length &&
+          (jogo[auxRow - x][auxColumn].innerHTML.trim() === "" ||
+            jogo[auxRow - x][auxColumn].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra
+          x++
+        );
+      if (x !== word.length) return -1;
     }
     // coloca as palavras de baixo para cima
     jogo[auxRow - i][auxColumn].innerHTML = word[i];
-    jogo[auxRow - i][auxColumn].style.color = "grey";
+    // jogo[auxRow - i][auxColumn].style.color = "grey";
+    return i;
   };
 
   const leftDiagonalTopToBottom = (jogo, word, i) => {
     if (!i) {
       let x = 0;
-      do {
-        x = 0;
-        auxRow = Math.floor(Math.random() * rows);
-        auxColumn = Math.floor(Math.random() * columns);
-        if (word.length + auxColumn <= columns && word.length + auxRow <= rows)
-          for (
-            ;
-            x < word.length &&
-            (jogo[auxRow + x][auxColumn + x].innerHTML.trim() === "" ||
-              jogo[auxRow + x][auxColumn + x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra;
-            x++
-          );
-      } while (x !== word.length);
+      auxRow = Math.floor(Math.random() * rows);
+      auxColumn = Math.floor(Math.random() * columns);
+      if (word.length + auxColumn <= columns && word.length + auxRow <= rows)
+        for (
+          ;
+          x < word.length &&
+          (jogo[auxRow + x][auxColumn + x].innerHTML.trim() === "" ||
+            jogo[auxRow + x][auxColumn + x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra;
+          x++
+        );
+      if (x !== word.length) return -1;
     }
     // coloca as palavras da diagonal esquerda para baixo
     jogo[auxRow + i][auxColumn + i].innerHTML = word[i];
-    jogo[auxRow + i][auxColumn + i].style.color = "brown";
+    // jogo[auxRow + i][auxColumn + i].style.color = "brown";
+    return i;
   };
 
   const leftDiagonalBottomToTop = (jogo, word, i) => {
     if (!i) {
       let x = 0;
-      do {
-        x = 0;
-        auxRow = Math.floor(Math.random() * rows);
-        auxColumn = Math.floor(Math.random() * columns);
-        if (auxColumn + 1 - word.length >= 0 && auxRow + 1 - word.length >= 0)
-          for (
-            ;
-            x < word.length &&
-            (jogo[auxRow - x][auxColumn - x].innerHTML.trim() === "" ||
-              jogo[auxRow - x][auxColumn - x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra;
-            x++
-          );
-      } while (x !== word.length);
+      auxRow = Math.floor(Math.random() * rows);
+      auxColumn = Math.floor(Math.random() * columns);
+      if (auxColumn + 1 - word.length >= 0 && auxRow + 1 - word.length >= 0)
+        for (
+          ;
+          x < word.length &&
+          (jogo[auxRow - x][auxColumn - x].innerHTML.trim() === "" ||
+            jogo[auxRow - x][auxColumn - x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra;
+          x++
+        );
+      if (x !== word.length) return -1;
     }
     // coloca as palavras da diagonal esquerda para cima
     jogo[auxRow - i][auxColumn - i].innerHTML = word[i];
-    jogo[auxRow - i][auxColumn - i].style.color = "orange";
+    // jogo[auxRow - i][auxColumn - i].style.color = "orange";
+    return i;
   };
 
   const rightDiagonalTopToBottom = (jogo, word, i) => {
     if (!i) {
       let x = 0;
-      do {
-        x = 0;
-        auxRow = Math.floor(Math.random() * rows);
-        auxColumn = Math.floor(Math.random() * columns);
-        if (auxColumn + 1 - word.length >= 0 && word.length + auxRow <= rows)
-          for (
-            ;
-            x < word.length &&
-            (jogo[auxRow + x][auxColumn - x].innerHTML.trim() === "" ||
-              jogo[auxRow + x][auxColumn - x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra;
-            x++
-          );
-      } while (x !== word.length);
+      auxRow = Math.floor(Math.random() * rows);
+      auxColumn = Math.floor(Math.random() * columns);
+      if (auxColumn + 1 - word.length >= 0 && word.length + auxRow <= rows)
+        for (
+          ;
+          x < word.length &&
+          (jogo[auxRow + x][auxColumn - x].innerHTML.trim() === "" ||
+            jogo[auxRow + x][auxColumn - x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra;
+          x++
+        );
+      if (x !== word.length) return -1;
     }
     // coloca as palavras da diagonal direita para baixo
     jogo[auxRow + i][auxColumn - i].innerHTML = word[i];
-    jogo[auxRow + i][auxColumn - i].style.color = "pink";
+    // jogo[auxRow + i][auxColumn - i].style.color = "pink";
+    return i;
   };
 
   const rightDiagonalBottomToTop = (jogo, word, i) => {
     if (!i) {
       let x = 0;
-      do {
-        x = 0;
-        auxRow = Math.floor(Math.random() * rows);
-        auxColumn = Math.floor(Math.random() * columns);
-        if (auxRow + 1 - word.length >= 0 && word.length + auxColumn <= columns)
-          for (
-            ;
-            x < word.length &&
-            (jogo[auxRow - x][auxColumn + x].innerHTML.trim() === "" ||
-              jogo[auxRow - x][auxColumn + x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra;
-            x++
-          );
-      } while (x !== word.length);
+      auxRow = Math.floor(Math.random() * rows);
+      auxColumn = Math.floor(Math.random() * columns);
+      if (auxRow + 1 - word.length >= 0 && word.length + auxColumn <= columns)
+        for (
+          ;
+          x < word.length &&
+          (jogo[auxRow - x][auxColumn + x].innerHTML.trim() === "" ||
+            jogo[auxRow - x][auxColumn + x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra;
+          x++
+        );
+      if (x !== word.length) return -1;
     }
     // coloca as palavras da diagonal direita para cima
     jogo[auxRow - i][auxColumn + i].innerHTML = word[i];
-    jogo[auxRow - i][auxColumn + i].style.color = "purple";
+    // jogo[auxRow - i][auxColumn + i].style.color = "purple";
+    return i;
   };
 
-  let count = 0;
-  if (startGame) {
-    createCanvas();
-  }
-  return <div className="canvas"></div>;
+  return (
+    <div className="canvas">
+      {startGame ? (
+        createCanvas()
+      ) : (
+        <img src={blankImg} alt="" width="560.017px" height="459px" />
+      )}
+    </div>
+  );
 }

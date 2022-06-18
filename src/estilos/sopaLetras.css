@@ -9,20 +9,21 @@ html {
 }
 
 .canvas {
-  /* position: absolute; */
-  left: 27%;
-  transform: translate(-10%, 0);
-  margin-top: 5%;
+  transform: translate(-8%, 0);
+  margin-top: 5.1%;
+  box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.2);
+  border: 0.1px solid orange;
+  height: 100%;
 }
 
 .letra {
-  background-color: white;
   all: unset;
   color: black;
-  padding: 3px;
-  height: 20px;
-  width: 2.5vw;
+  height: 29px;
+  width: 35px;
   cursor: pointer;
+  font-size: 1.7vw;
+  text-align: center;
 }
 
 .block-words {
@@ -32,29 +33,31 @@ html {
 }
 
 .n-words {
-  font-size: 19px;
+  position: absolute;
+  font-size: 23px;
   color: #ffa31a;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
+  top: 30px;
+  /* right: 30%; */
 }
 
 .number {
-  padding-right: 7px;
+  text-decoration: underline;
   color: black;
+  font-size: 20px;
+  margin-left: 2vw;
 }
 
 .list {
-  margin-top: 20px;
   position: relative;
   width: 16vw;
-  height: 360px;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 5px;
   flex-direction: column;
+  box-shadow: 1px 10px 20px 1px rgba(0, 0, 0, 0.2);
 }
 
 .list::after {
@@ -66,10 +69,11 @@ html {
 .list::before {
   content: " ";
   position: absolute;
-  width: 150px;
+  width: 8vw;
   height: 140%;
-  background: linear-gradient(black, #ffa31a);
-  animation: animateBorder 8s linear infinite;
+  background: linear-gradient(#ffa31a, #ffa31a, black, black);
+  animation: animateBorder 30s linear infinite;
+  transform: rotate(159deg);
 }
 
 .list span {
@@ -77,9 +81,10 @@ html {
   color: black;
   font-size: 1.55vw;
   z-index: 10;
-  align-self: start;
-  padding-left: 3.6vw;
+  align-self: center;
   margin: 0;
+  margin-right: 4px;
+  line-height: 30px;
 }
 
 @keyframes animateBorder {
@@ -96,9 +101,9 @@ html {
 .base-timer {
   position: relative;
   display: inline-block;
-  margin-left: 2%;
-  margin-right: 11%;
-  top: 33vh;
+  margin-left: 3%;
+  margin-right: 8%;
+  top: 35vh;
   width: 13vw;
   height: 13vw;
   text-align: center;
@@ -115,7 +120,7 @@ html {
 
 .base-timer__path-elapsed {
   stroke-width: 7px;
-  stroke: gray;
+  stroke: white;
 }
 
 .base-timer__path-remaining {
@@ -138,4 +143,20 @@ html {
   align-items: center;
   justify-content: center;
   font-size: 2.3vw;
+}
+
+.game-mode {
+  position: absolute;
+  clip-path: polygon(96% 0, 100% 51%, 96% 100%, 4% 100%, 0% 50%, 4% 0);
+  background: black;
+  top: 9vw;
+  left: 0.7vw;
+  /* left:38%;
+  top: 1.5vw; */
+  font-size: 1.7vw;
+}
+
+.span-text-mode {
+  color: white;
+  padding: 0 60px 0 60px;
 }

@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import avanModeImg from "../imagens&videos/avancado.jpg";
-
-function useModos() {
+import avan from "../imagens&videos/avan.png";
+function useModos({ listOfWords, setNewList }) {
   const [isHovering, setIsHovering] = useState(false); // o modo que foi passado (quando passado isHovering fica com a class desse botao, nao clicado = false)
   const [isClicked, setIsClicked] = useState(false); // o modo que foi escolhido (clicado, isCliced fica com a class desse botao, nao clicado = false)
   const [colourButtonModeClicked, setColorButtonMode] = useState("white");
@@ -10,6 +9,10 @@ function useModos() {
   const [rowsColumns, setRowsColumns] = useState(0); // numero de linhas e colunas
   const [timer, setTimer] = useState(0);
   const [formatTimer, setFormatTimer] = useState(0);
+
+  useEffect(() => {
+    formatTime(timer);
+  }, [isHovering]);
 
   const handleMouseEnter = (e) => {
     let currentMode = e.currentTarget.className;
@@ -25,6 +28,13 @@ function useModos() {
     let currentMode = e.currentTarget.className;
     setIsClicked(currentMode);
     permaColourMode(currentMode);
+
+    let count = 0;
+    listOfWords.sort(() => 0.5 - Math.random());
+    const array = listOfWords.filter(
+      (word) => word.length < rowsColumns && count++ < numberOfWords
+    );
+    setNewList(array);
   };
 
   const handleMouseLeave = () => {
@@ -42,18 +52,18 @@ function useModos() {
     switch (mode) {
       case "simp": // modo simples
         setNumberOfWords(5);
-        setRowsColumns(8);
-        setTimer(10000);
+        setRowsColumns(10);
+        setTimer(900);
         break;
       case "inter": // modo intermedio
-        setNumberOfWords(7);
-        setRowsColumns(12);
-        setTimer(1000);
+        setNumberOfWords(10);
+        setRowsColumns(14);
+        setTimer(600);
         break;
       case "avan": // modo avançado
-        setNumberOfWords(10);
+        setNumberOfWords(15);
         setRowsColumns(16);
-        setTimer(100);
+        setTimer(300);
         break;
       default:
         setNumberOfWords(0);
@@ -67,9 +77,8 @@ function useModos() {
 
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
-    let seconds = time % 60;
 
-    return `${minutes}:${seconds}`;
+    setFormatTimer(minutes + " minutos");
   };
 
   const permaColourMode = (currentMode) => {
@@ -109,6 +118,7 @@ function useModos() {
     rowsColumns,
     numberOfWords,
     timer,
+    isClicked,
     render: (
       <>
         <div className="modos">
@@ -186,16 +196,22 @@ function useModos() {
           <div className={`pre-view ${isHovering ? "" : "hidden"}`}>
             <div className="info-game">
               <span id="tempo">
-                {/* Tempo <span className="n-time">:  </span> */}
+                Tempo <span className="n-time"> {formatTimer}</span>
               </span>
               <span id="palavras">
-                Palavras <span className="n-palavras">: {numberOfWords}</span>
+                Palavras <span className="n-palavras"> {numberOfWords}</span>
               </span>
             </div>
-            <img src={avanModeImg} alt="" width="450vw" height="350vh" />
+            <img
+              src={avan}
+              alt=""
+              width="425vw"
+              height="325vh"
+              className="imgModos"
+            />
             <div className="start">
               <Link to="/Sopa-Letras" className="start-button">
-                Começar Jogo
+                ENTRAR
               </Link>
             </div>
           </div>

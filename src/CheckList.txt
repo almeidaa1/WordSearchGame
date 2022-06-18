@@ -4,13 +4,14 @@
 -----------------------------------------< A FAZER >----------------------------------------
 
 => Ver Melhor Possibilidade De Construçao De Grid
-=> +ou- Palavras Conforme O Nivel (ver se cabem na sopa)
+=> Seleçao da Palavra Na Grid, Verificando Se Esta Ou Nao Na Lista
 
 --------------------------------------------------------------------------------------------
 => Criaçao Da Sopa De Forma Dinamica Dependendo Do Modo Escolhido Pelo Utilizador                         /*DONE*/
 => Preencher A Sopa Com Palavras Em Posiçoes Aleatorias Sem Que Haja SobrePosiçao Das Mesmas              /*DONE*/  <== Dificil
 => Permitir Que Haja SobrePosiçao De Letras Caso Estas Sejam Iguais                                       /*DONE*/ 
 => Prencher Os Restantos Espaços Em "Branco" Da Sopa Com Letras Aleatorias                                /*DONE*/
+=> +ou- Palavras Conforme O Nivel (ver se cabem na sopa)                                                  /*DONE*/
 
 
 **********
@@ -19,6 +20,8 @@
 -----------------------------------------< A FAZER >----------------------------------------
 
 => Deixar O Botao "Costumizar" Funcional
+=> Pontuaçao
+=> Possibilidade De Jogar Novamente
 
 --------------------------------------------------------------------------------------------
 => Single Page Application Utilizando O Router React (video)                                             /*DONE*/
