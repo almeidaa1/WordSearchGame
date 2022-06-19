@@ -1,6 +1,6 @@
 body {
   overflow-x: hidden;
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
   margin: 0;
   font-family: "Courier New", Courier, monospace;
 }
@@ -161,9 +161,12 @@ ul.options {
   margin: 57px 50px 0 0;
   background-color: #181b21;
   padding-right: 30px;
-  cursor: pointer;
   color: white;
   clip-path: polygon(0 0, 97% 0, 94% 100%, 0% 100%);
+}
+
+.add-span {
+  cursor: pointer;
 }
 
 /* Pre-Visualizaçao da Sopas de Letras conforme os modos */
@@ -208,17 +211,18 @@ ul.options {
   text-align: center;
 }
 
-.start {
+.enter {
   text-align: center;
 }
-.start-button {
+.enter-button {
   text-decoration: none;
   color: black;
   border: 2px solid black;
   display: inline-block;
-  margin-top: 15px;
+  margin-top: 10px;
   font-size: 2vw;
-  padding: 3px 30px 3px 30px;
+  padding: 3px 60px 3px 60px;
+  border-radius: 5px;
 }
 
 .info-game {
@@ -231,7 +235,7 @@ ul.options {
 }
 
 #tempo {
-  margin-right: 11vw;
+  margin-right: 12.5vw;
 }
 
 .n-time {
@@ -251,4 +255,53 @@ ul.options {
 
 .hidden {
   display: none;
+}
+
+/* Costumizar */
+
+.add-words {
+  text-align: center;
+  height: 100%;
+}
+
+.word-input {
+  text-align: center;
+  padding: 5px 25px 5px 25px;
+  font-size: 25px;
+  font-family: "Courier New", Courier, monospace;
+  outline: none;
+  border: 1px solid black;
+}
+
+.word-input::placeholder {
+  font-family: "Courier New", Courier, monospace;
+  opacity: 35%;
+}
+
+.add-button {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 28px;
+  border-radius: 15px;
+  background-color: white;
+  border: 1px solid black;
+  padding: 2px 20px 2px 20px;
+  cursor: pointer;
+  margin-top: 13px;
+  border: 1.5px solid #e68a00;
+  color: #e68a00;
+}
+
+.word-list {
+  position: relative;
+  text-align: start;
+  height: 22.1vw;
+}
+
+.ul-list {
+  column-width: 150px;
+  line-height: 30px;
+  font-size: 20px;
+  margin-left: 30px;
+  margin-top: 50px;
+  list-style-type: none;
 }

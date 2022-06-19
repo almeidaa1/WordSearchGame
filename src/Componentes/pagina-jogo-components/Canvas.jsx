@@ -1,11 +1,78 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import blankImg from "../../imagens&videos/blankExcla.jpg";
 
-export default function Canvas({ rowsColumns, newList, startGame }) {
+export default function Canvas({
+  rowsColumns,
+  newList,
+  startGame,
+  setNewList,
+  setCurrentWordsCompleted,
+}) {
   let auxRow, auxColumn;
   const abcd = "abcdefghijklmnopqrstuvwxyzç";
   const rows = rowsColumns,
     columns = rowsColumns;
+
+  const canvasRef = useRef();
+  let lettersClicked = [];
+  let wordChecker = [];
+  const [x, setX] = useState(0);
+
+  useEffect(() => {
+    if (x == 1) {
+      // CRIA A SOUPA DE LETRAS PREENCHENDO-A COM LETRAS
+      let canvas = canvasRef.current;
+
+      // Cria A Sopa De Letras
+      let soup = [];
+      for (let i = 0; i < rows; i++) {
+        soup[i] = [];
+        for (let j = 0; j < columns; j++) {
+          let block = document.createElement("button");
+          block.className = "letra";
+          block.addEventListener("click", (e) => handleClickLetter(e));
+          soup[i][j] = block;
+          canvas.appendChild(block);
+        }
+        let breakLine = document.createElement("br");
+        canvas.appendChild(breakLine);
+      }
+
+      // Adiciona As Palavras Do Array A Sopa
+      addWordsToSoup(soup);
+
+      // Adciciona As Letras De Forma Random Caso O Conteudo Na Html Na Posiçao Seja Vazio
+      for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < columns; j++) {
+          if (soup[i][j].innerHTML.trim() === "") {
+            let randomLetter = randomLetters();
+            soup[i][j].value = randomLetter;
+            soup[i][j].innerHTML = randomLetter;
+          }
+        }
+      }
+    }
+    setX((prevX) => prevX + 1);
+  }, [startGame]);
+
+  const handleClickLetter = (e) => {
+    lettersClicked.push(e.target.value);
+    wordChecker = lettersClicked.join("");
+
+    const newStateList = [...newList];
+    const wordCompleted = newStateList.find(
+      (word) => word.name === wordChecker
+    );
+    if (wordCompleted) {
+      wordCompleted.completed = true;
+      lettersClicked = [];
+      wordChecker = [];
+      setCurrentWordsCompleted((prevCurrentWordsCompleted) => {
+        return [...prevCurrentWordsCompleted, wordCompleted.name];
+      });
+      setNewList(newStateList);
+    }
+  };
 
   // RETURNA UM VALOR RANDOM PARA SE PUDER IR A STRING ABCD E SELECIONAR ALEATORIAMENTE UMA LETRA DA STRING PARA PREENCHER A SOPA
   const randomLetters = () => {
@@ -14,7 +81,7 @@ export default function Canvas({ rowsColumns, newList, startGame }) {
 
   // CRIA A SOUPA DE LETRAS PREENCHENDO-A COM LETRAS
   const createCanvas = () => {
-    let canvas = document.querySelector(".canvas");
+    let canvas = canvasRef.current;
 
     // Cria A Sopa De Letras
     let soup = [];
@@ -22,8 +89,9 @@ export default function Canvas({ rowsColumns, newList, startGame }) {
       soup[i] = [];
       for (let j = 0; j < columns; j++) {
         let block = document.createElement("button");
-        soup[i][j] = block;
         block.className = "letra";
+        block.addEventListener("click", (e) => handleClickLetter(e));
+        soup[i][j] = block;
         canvas.appendChild(block);
       }
       let breakLine = document.createElement("br");
@@ -32,11 +100,15 @@ export default function Canvas({ rowsColumns, newList, startGame }) {
 
     // Adiciona As Palavras Do Array A Sopa
     addWordsToSoup(soup);
+
     // Adciciona As Letras De Forma Random Caso O Conteudo Na Html Na Posiçao Seja Vazio
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < columns; j++) {
-        if (soup[i][j].innerHTML.trim() === "")
-          soup[i][j].innerHTML = randomLetters();
+        if (soup[i][j].innerHTML.trim() === "") {
+          let randomLetter = randomLetters();
+          soup[i][j].value = randomLetter;
+          soup[i][j].innerHTML = randomLetter;
+        }
       }
     }
   };
@@ -44,8 +116,8 @@ export default function Canvas({ rowsColumns, newList, startGame }) {
   // ADICIONA À SOPA DE LETRAS AS PALAVRAS ALTEATORIA CONSOANTE A STRING WORDS
   const addWordsToSoup = (jogo) => {
     let position = Math.floor(Math.random() * 8);
-    newList.forEach((word) => {
-      for (let i = 0; i < word.length; i++) {
+    newList.forEach((word, index) => {
+      for (let i = 0; i < word.name.length; i++) {
         switch (position) {
           case 0:
             i = leftToRight(jogo, word, i);
@@ -72,7 +144,7 @@ export default function Canvas({ rowsColumns, newList, startGame }) {
             i = rightDiagonalBottomToTop(jogo, word, i);
             break;
         }
-        if (i == -1) position = Math.floor(Math.random() * 8);
+        if (i === -1) position = Math.floor(Math.random() * 8);
       }
     });
   };
@@ -82,20 +154,21 @@ export default function Canvas({ rowsColumns, newList, startGame }) {
       auxRow = Math.floor(Math.random() * rows);
       auxColumn = Math.floor(Math.random() * columns);
 
-      if (word.length + auxColumn <= columns)
+      if (word.name.length + auxColumn <= columns)
         // Percorre todo o local onde supostamente a palavra vai ficar e verifica se e permitada ou nao
         for (
           ;
-          x < word.length &&
+          x < word.name.length &&
           (jogo[auxRow][auxColumn + x].innerHTML.trim() === "" ||
-            jogo[auxRow][auxColumn + x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra
+            jogo[auxRow][auxColumn + x].innerHTML === word.name[x]); // para puder sobrepor a mesma letra da outra palavra
           x++
         );
-      if (x !== word.length) return -1; // para
+      if (x !== word.name.length) return -1; // para
     }
     // coloca as palavras da esquerda para a direita
-    jogo[auxRow][auxColumn + i].innerHTML = word[i];
-    // jogo[auxRow][auxColumn + i].style.color = "green";
+    jogo[auxRow][auxColumn + i].value = word.name[i];
+    jogo[auxRow][auxColumn + i].innerHTML = word.name[i];
+    jogo[auxRow][auxColumn + i].style.color = "green";
     return i;
   };
 
@@ -105,19 +178,20 @@ export default function Canvas({ rowsColumns, newList, startGame }) {
       auxRow = Math.floor(Math.random() * rows);
       auxColumn = Math.floor(Math.random() * columns);
 
-      if (auxColumn + 1 - word.length >= 0)
+      if (auxColumn + 1 - word.name.length >= 0)
         for (
           ;
-          x < word.length &&
+          x < word.name.length &&
           (jogo[auxRow][auxColumn - x].innerHTML.trim() === "" ||
-            jogo[auxRow][auxColumn - x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra
+            jogo[auxRow][auxColumn - x].innerHTML === word.name[x]); // para puder sobrepor a mesma letra da outra palavra
           x++
         );
-      if (x !== word.length) return -1;
+      if (x !== word.name.length) return -1;
     }
     // coloca as palavras da direita para a esquerda
-    jogo[auxRow][auxColumn - i].innerHTML = word[i];
-    // jogo[auxRow][auxColumn - i].style.color = "red";
+    jogo[auxRow][auxColumn - i].value = word.name[i];
+    jogo[auxRow][auxColumn - i].innerHTML = word.name[i];
+    jogo[auxRow][auxColumn - i].style.color = "red";
     return i;
   };
 
@@ -127,19 +201,20 @@ export default function Canvas({ rowsColumns, newList, startGame }) {
       auxRow = Math.floor(Math.random() * rows);
       auxColumn = Math.floor(Math.random() * columns);
 
-      if (word.length + auxRow <= rows)
+      if (word.name.length + auxRow <= rows)
         for (
           ;
-          x < word.length &&
+          x < word.name.length &&
           (jogo[auxRow + x][auxColumn].innerHTML.trim() === "" ||
-            jogo[auxRow + x][auxColumn].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra
+            jogo[auxRow + x][auxColumn].innerHTML === word.name[x]); // para puder sobrepor a mesma letra da outra palavra
           x++
         );
-      if (x !== word.length) return -1;
+      if (x !== word.name.length) return -1;
     }
     // coloca as palavras de cima para baixo
-    jogo[auxRow + i][auxColumn].innerHTML = word[i];
-    // jogo[auxRow + i][auxColumn].style.color = "blue";
+    jogo[auxRow + i][auxColumn].value = word.name[i];
+    jogo[auxRow + i][auxColumn].innerHTML = word.name[i];
+    jogo[auxRow + i][auxColumn].style.color = "blue";
     return i;
   };
 
@@ -149,19 +224,20 @@ export default function Canvas({ rowsColumns, newList, startGame }) {
       auxRow = Math.floor(Math.random() * rows);
       auxColumn = Math.floor(Math.random() * columns);
 
-      if (auxRow + 1 - word.length >= 0)
+      if (auxRow + 1 - word.name.length >= 0)
         for (
           ;
-          x < word.length &&
+          x < word.name.length &&
           (jogo[auxRow - x][auxColumn].innerHTML.trim() === "" ||
-            jogo[auxRow - x][auxColumn].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra
+            jogo[auxRow - x][auxColumn].innerHTML === word.name[x]); // para puder sobrepor a mesma letra da outra palavra
           x++
         );
-      if (x !== word.length) return -1;
+      if (x !== word.name.length) return -1;
     }
     // coloca as palavras de baixo para cima
-    jogo[auxRow - i][auxColumn].innerHTML = word[i];
-    // jogo[auxRow - i][auxColumn].style.color = "grey";
+    jogo[auxRow - i][auxColumn].value = word.name[i];
+    jogo[auxRow - i][auxColumn].innerHTML = word.name[i];
+    jogo[auxRow - i][auxColumn].style.color = "grey";
     return i;
   };
 
@@ -170,19 +246,23 @@ export default function Canvas({ rowsColumns, newList, startGame }) {
       let x = 0;
       auxRow = Math.floor(Math.random() * rows);
       auxColumn = Math.floor(Math.random() * columns);
-      if (word.length + auxColumn <= columns && word.length + auxRow <= rows)
+      if (
+        word.name.length + auxColumn <= columns &&
+        word.name.length + auxRow <= rows
+      )
         for (
           ;
-          x < word.length &&
+          x < word.name.length &&
           (jogo[auxRow + x][auxColumn + x].innerHTML.trim() === "" ||
-            jogo[auxRow + x][auxColumn + x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra;
+            jogo[auxRow + x][auxColumn + x].innerHTML === word.name[x]); // para puder sobrepor a mesma letra da outra palavra;
           x++
         );
-      if (x !== word.length) return -1;
+      if (x !== word.name.length) return -1;
     }
     // coloca as palavras da diagonal esquerda para baixo
-    jogo[auxRow + i][auxColumn + i].innerHTML = word[i];
-    // jogo[auxRow + i][auxColumn + i].style.color = "brown";
+    jogo[auxRow + i][auxColumn + i].value = word.name[i];
+    jogo[auxRow + i][auxColumn + i].innerHTML = word.name[i];
+    jogo[auxRow + i][auxColumn + i].style.color = "brown";
     return i;
   };
 
@@ -191,19 +271,23 @@ export default function Canvas({ rowsColumns, newList, startGame }) {
       let x = 0;
       auxRow = Math.floor(Math.random() * rows);
       auxColumn = Math.floor(Math.random() * columns);
-      if (auxColumn + 1 - word.length >= 0 && auxRow + 1 - word.length >= 0)
+      if (
+        auxColumn + 1 - word.name.length >= 0 &&
+        auxRow + 1 - word.name.length >= 0
+      )
         for (
           ;
-          x < word.length &&
+          x < word.name.length &&
           (jogo[auxRow - x][auxColumn - x].innerHTML.trim() === "" ||
-            jogo[auxRow - x][auxColumn - x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra;
+            jogo[auxRow - x][auxColumn - x].innerHTML === word.name[x]); // para puder sobrepor a mesma letra da outra palavra;
           x++
         );
-      if (x !== word.length) return -1;
+      if (x !== word.name.length) return -1;
     }
     // coloca as palavras da diagonal esquerda para cima
-    jogo[auxRow - i][auxColumn - i].innerHTML = word[i];
-    // jogo[auxRow - i][auxColumn - i].style.color = "orange";
+    jogo[auxRow - i][auxColumn - i].value = word.name[i];
+    jogo[auxRow - i][auxColumn - i].innerHTML = word.name[i];
+    jogo[auxRow - i][auxColumn - i].style.color = "orange";
     return i;
   };
 
@@ -212,19 +296,23 @@ export default function Canvas({ rowsColumns, newList, startGame }) {
       let x = 0;
       auxRow = Math.floor(Math.random() * rows);
       auxColumn = Math.floor(Math.random() * columns);
-      if (auxColumn + 1 - word.length >= 0 && word.length + auxRow <= rows)
+      if (
+        auxColumn + 1 - word.name.length >= 0 &&
+        word.name.length + auxRow <= rows
+      )
         for (
           ;
-          x < word.length &&
+          x < word.name.length &&
           (jogo[auxRow + x][auxColumn - x].innerHTML.trim() === "" ||
-            jogo[auxRow + x][auxColumn - x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra;
+            jogo[auxRow + x][auxColumn - x].innerHTML === word.name[x]); // para puder sobrepor a mesma letra da outra palavra;
           x++
         );
-      if (x !== word.length) return -1;
+      if (x !== word.name.length) return -1;
     }
     // coloca as palavras da diagonal direita para baixo
-    jogo[auxRow + i][auxColumn - i].innerHTML = word[i];
-    // jogo[auxRow + i][auxColumn - i].style.color = "pink";
+    jogo[auxRow + i][auxColumn - i].value = word.name[i];
+    jogo[auxRow + i][auxColumn - i].innerHTML = word.name[i];
+    jogo[auxRow + i][auxColumn - i].style.color = "pink";
     return i;
   };
 
@@ -233,27 +321,29 @@ export default function Canvas({ rowsColumns, newList, startGame }) {
       let x = 0;
       auxRow = Math.floor(Math.random() * rows);
       auxColumn = Math.floor(Math.random() * columns);
-      if (auxRow + 1 - word.length >= 0 && word.length + auxColumn <= columns)
+      if (
+        auxRow + 1 - word.name.length >= 0 &&
+        word.name.length + auxColumn <= columns
+      )
         for (
           ;
-          x < word.length &&
+          x < word.name.length &&
           (jogo[auxRow - x][auxColumn + x].innerHTML.trim() === "" ||
-            jogo[auxRow - x][auxColumn + x].innerHTML === word[x]); // para puder sobrepor a mesma letra da outra palavra;
+            jogo[auxRow - x][auxColumn + x].innerHTML === word.name[x]); // para puder sobrepor a mesma letra da outra palavra;
           x++
         );
-      if (x !== word.length) return -1;
+      if (x !== word.name.length) return -1;
     }
     // coloca as palavras da diagonal direita para cima
-    jogo[auxRow - i][auxColumn + i].innerHTML = word[i];
-    // jogo[auxRow - i][auxColumn + i].style.color = "purple";
+    jogo[auxRow - i][auxColumn + i].value = word.name[i];
+    jogo[auxRow - i][auxColumn + i].innerHTML = word.name[i];
+    jogo[auxRow - i][auxColumn + i].style.color = "purple";
     return i;
   };
 
   return (
-    <div className="canvas">
-      {startGame ? (
-        createCanvas()
-      ) : (
+    <div className="canvas" ref={canvasRef}>
+      {startGame ? null : (
         <img src={blankImg} alt="" width="560.017px" height="459px" />
       )}
     </div>

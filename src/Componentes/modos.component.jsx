@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import avan from "../imagens&videos/avan.png";
-function useModos({ listOfWords, setNewList }) {
+function useModos({ listOfWords, setNewList, setListOfWords }) {
   const [isHovering, setIsHovering] = useState(false); // o modo que foi passado (quando passado isHovering fica com a class desse botao, nao clicado = false)
   const [isClicked, setIsClicked] = useState(false); // o modo que foi escolhido (clicado, isCliced fica com a class desse botao, nao clicado = false)
   const [colourButtonModeClicked, setColorButtonMode] = useState("white");
@@ -9,6 +9,9 @@ function useModos({ listOfWords, setNewList }) {
   const [rowsColumns, setRowsColumns] = useState(0); // numero de linhas e colunas
   const [timer, setTimer] = useState(0);
   const [formatTimer, setFormatTimer] = useState(0);
+  const [isClickedAddWords, setIsClickedAddWords] = useState(false);
+
+  const wordRef = useRef();
 
   useEffect(() => {
     formatTime(timer);
@@ -20,6 +23,7 @@ function useModos({ listOfWords, setNewList }) {
       resetColourMode();
       setIsClicked(false);
     }
+    setIsClickedAddWords(false);
     setIsHovering(currentMode);
     setGame(currentMode);
   };
@@ -28,13 +32,6 @@ function useModos({ listOfWords, setNewList }) {
     let currentMode = e.currentTarget.className;
     setIsClicked(currentMode);
     permaColourMode(currentMode);
-
-    let count = 0;
-    listOfWords.sort(() => 0.5 - Math.random());
-    const array = listOfWords.filter(
-      (word) => word.length < rowsColumns && count++ < numberOfWords
-    );
-    setNewList(array);
   };
 
   const handleMouseLeave = () => {
@@ -46,6 +43,22 @@ function useModos({ listOfWords, setNewList }) {
     }
   };
 
+  const handleAddButton = () => {
+    setIsClickedAddWords(true);
+    setIsHovering(false);
+    setIsClicked(false);
+    resetColourMode();
+  };
+
+  const handleAddWordsClick = () => {
+    const word = wordRef.current.value;
+    if (word === "") return;
+    setListOfWords((prevListOfWords) => {
+      return [...prevListOfWords, word];
+    });
+    wordRef.current.value = null;
+  };
+
   const setGame = (mode) => {
     let modeButton = document.querySelector("." + mode);
     // seta o numero de palavras conforme o modo selecionado
@@ -53,17 +66,17 @@ function useModos({ listOfWords, setNewList }) {
       case "simp": // modo simples
         setNumberOfWords(5);
         setRowsColumns(10);
-        setTimer(900);
+        setTimer(900); // 900
         break;
       case "inter": // modo intermedio
         setNumberOfWords(10);
         setRowsColumns(14);
-        setTimer(600);
+        setTimer(600); //600
         break;
       case "avan": // modo avançado
         setNumberOfWords(15);
         setRowsColumns(16);
-        setTimer(300);
+        setTimer(300); // 300
         break;
       default:
         setNumberOfWords(0);
@@ -73,6 +86,31 @@ function useModos({ listOfWords, setNewList }) {
     }
     modeButton.style.backgroundPosition = "0 80px";
     modeButton.style.color = "white";
+  };
+
+  const handleEnterClick = () => {
+    let count = 0;
+
+    // The Fisher-Yates algorith
+    let shuffledWords = [...listOfWords];
+    for (let i = shuffledWords.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = shuffledWords[i];
+      shuffledWords[i] = shuffledWords[j];
+      shuffledWords[j] = temp;
+    }
+
+    const objectArray = [];
+    const words = shuffledWords.filter(
+      (word) => word.length < rowsColumns && count++ < numberOfWords
+    );
+
+    words.forEach((word, index) => {
+      objectArray[index] = { id: index, name: word, completed: false };
+    });
+
+    console.log(objectArray);
+    setNewList(objectArray);
   };
 
   const formatTime = (time) => {
@@ -165,10 +203,18 @@ function useModos({ listOfWords, setNewList }) {
               </li>
             </ul>
           </div>
-          <div className="costumizar">Costumizar</div>
+          <div className="costumizar">
+            <span className="add-span" onClick={handleAddButton}>
+              Costumizar
+            </span>
+          </div>
         </div>
         <div className="pre-visualizacao">
-          <div className={`selecione ${isHovering ? "hidden" : ""}`}>
+          <div
+            className={`selecione ${
+              isHovering || isClickedAddWords ? "hidden" : ""
+            }`}
+          >
             <span style={{ "--i": 1 }}>S</span>
             <span style={{ "--i": 2 }}>e</span>
             <span style={{ "--i": 3 }}>l</span>
@@ -205,15 +251,41 @@ function useModos({ listOfWords, setNewList }) {
             <img
               src={avan}
               alt=""
-              width="425vw"
-              height="325vh"
+              width="450vw"
+              height="330vh"
               className="imgModos"
             />
-            <div className="start">
-              <Link to="/Sopa-Letras" className="start-button">
+            <div className="enter">
+              <Link
+                to="/Sopa-Letras"
+                className="enter-button"
+                onClick={handleEnterClick}
+              >
                 ENTRAR
               </Link>
             </div>
+          </div>
+          <div className={`pre-view ${isClickedAddWords ? "" : "hidden"}`}>
+            <div className="word-list">
+              <ul className="ul-list">
+                {listOfWords.map((word, index) => (
+                  <li key={index} className="wordInList">
+                    {word}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="input-div">
+              <input
+                ref={wordRef}
+                type="text"
+                className="word-input"
+                placeholder="Palavra"
+              />
+            </div>
+            <button className="add-button" onClick={handleAddWordsClick}>
+              Adicionar
+            </button>
           </div>
         </div>
       </>

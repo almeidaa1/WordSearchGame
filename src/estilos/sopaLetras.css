@@ -87,6 +87,11 @@ html {
   line-height: 30px;
 }
 
+.list .riscada {
+  text-decoration: line-through;
+  color: grey;
+}
+
 @keyframes animateBorder {
   0% {
     transform: rotate(0deg);
@@ -159,4 +164,21 @@ html {
 .span-text-mode {
   color: white;
   padding: 0 60px 0 60px;
+}
+
+.points {
+  position: absolute;
+  left: 24%;
+  top: 30px;
+}
+
+.points-span {
+  color: crimson;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.n-points {
+  text-decoration: underline;
+  color: black;
 }

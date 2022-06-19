@@ -2,7 +2,7 @@ import PaginaInicial from "./Componentes/pagina-inicial.component";
 import useModos from "./Componentes/modos.component";
 import PaginaJogo from "./Componentes/pagina-jogo-components/pagina-jogo";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import "./estilos/styles.css";
 import "./estilos/sopaLetras.css";
@@ -18,14 +18,12 @@ function App() {
     "estudante",
     "vue",
     "programaçao",
-    "script",
     "linguagens",
     "assembly",
     "ember",
-    "svelte",
     "backbone",
-    "lavicon",
     "fantasma",
+    "computador",
   ]);
 
   const [newList, setNewList] = useState([]);
@@ -33,6 +31,7 @@ function App() {
   const { render, rowsColumns, numberOfWords, timer, isClicked } = useModos({
     listOfWords,
     setNewList,
+    setListOfWords,
   });
   return (
     <Router>
@@ -44,7 +43,14 @@ function App() {
           <Route path="/modos">{render}</Route>
           <Route path="/Sopa-Letras">
             <PaginaJogo
-              {...{ rowsColumns, numberOfWords, timer, isClicked, newList }}
+              {...{
+                rowsColumns,
+                numberOfWords,
+                timer,
+                isClicked,
+                newList,
+                setNewList,
+              }}
             />
           </Route>
         </Switch>

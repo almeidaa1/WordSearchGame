@@ -1,20 +1,74 @@
 import { useState, useEffect } from "react";
 
-function Cronometro({ timer, setStartGame, mode }) {
-  const TEMPO_TOTAL = timer;
+function PointsSystemAndTimer({
+  timer,
+  setStartGame,
+  newList,
+  mode,
+  currentWordsCompleted,
+  setCurrentTime,
+  gameEnded,
+}) {
+  const [totalPoints, setTotalPoints] = useState(0);
+  const [x, setX] = useState(0);
 
-  let [tempoRestante, setTempoRestante] = useState(TEMPO_TOTAL);
+  let [tempoRestante, setTempoRestante] = useState(timer);
   const [clickedStart, setClikedStart] = useState(false);
   const [time, setTime] = useState("Start Game");
 
+  useEffect(() => {
+    if (x >= 1) {
+      updatePoints();
+    }
+    setX((prevX) => prevX + 1);
+  }, [newList]);
+
+  useEffect(() => {
+    setCurrentTime(tempoRestante);
+  }, [tempoRestante]);
+
+  /*chamar esta função sempre que se verifica a igualdade*/
+  const updatePoints = () => {
+    let difficulty = 0;
+    let divisor = 0;
+    switch (mode) {
+      case "simp":
+        difficulty = 1;
+        divisor = 250;
+        break;
+      case "inter":
+        difficulty = 5;
+        divisor = 150;
+        break;
+      case "avan":
+        difficulty = 10;
+        divisor = 50;
+        break;
+      default:
+        difficulty = 0;
+        divisor = 0;
+        break;
+    }
+    let points = totalPoints;
+    points +=
+      Math.round(
+        (tempoRestante / divisor) *
+          currentWordsCompleted[currentWordsCompleted.length - 1].length
+      ) + difficulty;
+
+    setTotalPoints(points);
+  };
+
   const startTimer = () => {
-    setClikedStart(true);
-    setStartGame(true);
-    setTimeout(() => {
-      if (tempoRestante > 0) {
-        setTempoRestante((tempoRestante -= 1));
-      }
-    }, 1000);
+    if (!gameEnded) {
+      setClikedStart(true);
+      setStartGame(true);
+      setTimeout(() => {
+        if (tempoRestante > 0) {
+          setTempoRestante((tempoRestante -= 1));
+        }
+      }, 1000);
+    }
   };
 
   const formataTempo = (time) => {
@@ -28,7 +82,7 @@ function Cronometro({ timer, setStartGame, mode }) {
   };
 
   const calculaFracao = () => {
-    return tempoRestante / TEMPO_TOTAL;
+    return tempoRestante / timer;
   };
 
   const changeHtml = () => {
@@ -45,6 +99,11 @@ function Cronometro({ timer, setStartGame, mode }) {
 
   return (
     <>
+      <div className="points">
+        <span className="points-span">
+          Pontuação <span className="n-points">{totalPoints}</span>
+        </span>
+      </div>
       <div className="base-timer">
         <svg
           className="base-timer__svg"
@@ -88,4 +147,4 @@ function Cronometro({ timer, setStartGame, mode }) {
   );
 }
 
-export default Cronometro;
+export default PointsSystemAndTimer;
