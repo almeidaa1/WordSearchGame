@@ -1,4 +1,4 @@
-# Word Search Game
+# Word Search Game (React JS)
 
 ## Home Page
 ![](Final%20Project%20Images/HomePage.png)
