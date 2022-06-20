@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 
 export default function PaginaInicial() {
   const alertaAjuda = () => {
-    alert("Selecione todas as palavras do tabuleiro antes do tempo acabar!")
-  }
+    alert("Encontre Todas As Palavras No Tabuleiro Antes Do Tempo Acabar !");
+  };
   return (
     <>
       <div className="video">

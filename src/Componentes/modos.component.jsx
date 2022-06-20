@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import simp from "../imagens&videos/simp.png";
+import inter from "../imagens&videos/inter.png";
 import avan from "../imagens&videos/avan.png";
+
 function useModos({ listOfWords, setNewList, setListOfWords }) {
   const [isHovering, setIsHovering] = useState(false); // o modo que foi passado (quando passado isHovering fica com a class desse botao, nao clicado = false)
   const [isClicked, setIsClicked] = useState(false); // o modo que foi escolhido (clicado, isCliced fica com a class desse botao, nao clicado = false)
@@ -10,6 +13,7 @@ function useModos({ listOfWords, setNewList, setListOfWords }) {
   const [timer, setTimer] = useState(0);
   const [formatTimer, setFormatTimer] = useState(0);
   const [isClickedAddWords, setIsClickedAddWords] = useState(false);
+  const [modeImg, setModeImg] = useState(null);
 
   const wordRef = useRef();
   const enterRef = useRef();
@@ -18,6 +22,19 @@ function useModos({ listOfWords, setNewList, setListOfWords }) {
 
   useEffect(() => {
     formatTime(timer);
+    switch (isHovering) {
+      case "simp": // modo
+        setModeImg(simp);
+        break;
+      case "inter":
+        setModeImg(inter);
+        break;
+      case "avan":
+        setModeImg(avan);
+        break;
+      default:
+        break;
+    }
   }, [isHovering]);
 
   const handleMouseEnter = (e) => {
@@ -69,7 +86,7 @@ function useModos({ listOfWords, setNewList, setListOfWords }) {
       case "simp": // modo simples
         setNumberOfWords(5);
         setRowsColumns(10);
-        setTimer(1); // 900
+        setTimer(900); // 900
         tempoRef.current.style.color = "#33cc33";
         palavrasRef.current.style.color = "#33cc33";
         break;
@@ -141,7 +158,6 @@ function useModos({ listOfWords, setNewList, setListOfWords }) {
         break;
       case "inter":
         modeButton.style.background = "#ffa31a";
-        enterRef.current.style.color = "#ffa31a";
         enterRef.current.style.color = "#ffa31a";
         enterRef.current.style.border = "#ffa31a 2px solid";
         setColorButtonMode("#ffa31a");
@@ -270,7 +286,7 @@ function useModos({ listOfWords, setNewList, setListOfWords }) {
               </span>
             </div>
             <img
-              src={avan}
+              src={modeImg}
               alt=""
               width="450vw"
               height="330vh"

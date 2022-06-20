@@ -209,16 +209,17 @@ html {
   position: absolute;
   text-decoration: none;
   bottom: 34px;
-  left: 55px;
-  font-size: 23px;
+  left: 52px;
+  font-size: 21px;
   color: black;
+  font-weight: bold;
 }
 
 .vencedor {
   position: absolute;
   text-decoration: none;
-  bottom: 145px;
-  left: 55px;
+  top: 80px;
+  left: 52px;
   font-size: 23px;
   color: black;
 }
