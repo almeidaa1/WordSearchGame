@@ -58,8 +58,14 @@ export default function SopaLetras({
             setCurrentWordsCompleted={setCurrentWordsCompleted}
             mode={mode}
           />
-          <GameWords newList={newList} numberOfWords={numberOfWords} />
-          {gameEnded ? <JogarNovamente vencedor={vencedor} /> : null}
+          <GameWords
+            newList={newList}
+            numberOfWords={numberOfWords}
+            mode={mode}
+          />
+          {gameEnded ? (
+            <JogarNovamente vencedor={vencedor} mode={mode} />
+          ) : null}
         </div>
       </div>
     </>

@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 function PointsSystemAndTimer({
   timer,
@@ -17,6 +17,8 @@ function PointsSystemAndTimer({
   const [clickedStart, setClikedStart] = useState(false);
   const [time, setTime] = useState("Start Game");
 
+  const colorTimerRef = useRef();
+
   useEffect(() => {
     if (x >= 1) {
       updatePoints();
@@ -28,36 +30,52 @@ function PointsSystemAndTimer({
     setCurrentTime(tempoRestante);
   }, [tempoRestante]);
 
-  /*chamar esta função sempre que se verifica a igualdade*/
-  const updatePoints = () => {
-    let difficulty = 0;
-    let divisor = 0;
+  useEffect(() => {
     switch (mode) {
       case "simp":
-        difficulty = 1;
-        divisor = 250;
+        colorTimerRef.current.style.stroke = "#33cc33";
         break;
       case "inter":
-        difficulty = 5;
-        divisor = 150;
+        colorTimerRef.current.style.stroke = "#ffa31a";
         break;
       case "avan":
-        difficulty = 10;
-        divisor = 50;
-        break;
-      default:
-        difficulty = 0;
-        divisor = 0;
+        colorTimerRef.current.style.stroke = "crimson";
         break;
     }
-    let points = totalPoints;
-    points +=
-      Math.round(
-        (tempoRestante / divisor) *
-          currentWordsCompleted[currentWordsCompleted.length - 1].length
-      ) + difficulty;
+  }, []);
 
-    setTotalPoints(points);
+  /*chamar esta função sempre que se verifica a igualdade*/
+  const updatePoints = () => {
+    if (!gameEnded) {
+      let difficulty = 0;
+      let divisor = 0;
+      switch (mode) {
+        case "simp":
+          difficulty = 1;
+          divisor = 250;
+          break;
+        case "inter":
+          difficulty = 5;
+          divisor = 150;
+          break;
+        case "avan":
+          difficulty = 10;
+          divisor = 50;
+          break;
+        default:
+          difficulty = 0;
+          divisor = 0;
+          break;
+      }
+      let points = totalPoints;
+      points +=
+        Math.round(
+          (tempoRestante / divisor) *
+            currentWordsCompleted[currentWordsCompleted.length - 1].length
+        ) + difficulty;
+
+      setTotalPoints(points);
+    }
   };
 
   const startTimer = () => {
@@ -122,6 +140,7 @@ function PointsSystemAndTimer({
               r="45"
             ></circle>
             <path
+              ref={colorTimerRef}
               id="base-timer-path-remaining"
               strokeDasharray={(calculaFracao() * 283).toFixed(0) + " 283"}
               className="base-timer__path-remaining"

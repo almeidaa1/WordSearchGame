@@ -29,6 +29,21 @@ export default function Canvas({
     setX((prevX) => prevX + 1);
   }, [startGame]);
 
+  useEffect(() => {
+    let canvas = canvasRef.current;
+    switch (mode) {
+      case "simp":
+        canvas.style.border = "1px solid #33cc33";
+        break;
+      case "inter":
+        canvas.style.border = "1px solid #ffa31a";
+        break;
+      case "avan":
+        canvas.style.border = "1px solid crimson";
+        break;
+    }
+  }, []);
+
   // RETURNA UM VALOR RANDOM PARA SE PUDER IR A STRING ABCD E SELECIONAR ALEATORIAMENTE UMA LETRA DA STRING PARA PREENCHER A SOPA
   const randomLetters = () => {
     return abcd[Math.floor(Math.random() * abcd.length)];

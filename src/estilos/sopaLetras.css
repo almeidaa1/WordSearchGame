@@ -73,7 +73,10 @@ html {
   position: absolute;
   width: 8vw;
   height: 140%;
-  background: linear-gradient(#ffa31a, #ffa31a, black, black);
+  background: var(
+    --beforeList,
+    linear-gradient(#ffa31a, #ffa31a, black, black)
+  );
   animation: animateBorder 30s linear infinite;
   transform: rotate(159deg);
 }
@@ -175,7 +178,7 @@ html {
 }
 
 .points-span {
-  color: crimson;
+  color: #2e2d2c;
   font-size: 20px;
   text-decoration: none;
 }
@@ -186,7 +189,7 @@ html {
 }
 
 .dragging {
-  background-color: orange;
+  background-color: #8a847f;
   color: white;
 }
 
@@ -214,7 +217,7 @@ html {
 .vencedor {
   position: absolute;
   text-decoration: none;
-  bottom: 180px;
+  bottom: 145px;
   left: 55px;
   font-size: 23px;
   color: black;
