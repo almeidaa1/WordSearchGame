@@ -3,6 +3,9 @@ import video from "../imagens&videos/letters_-_5157(Original).mp4";
 import { Link } from "react-router-dom";
 
 export default function PaginaInicial() {
+  const alertaAjuda = () => {
+    alert("Selecione todas as palavras do tabuleiro antes do tempo acabar!")
+  }
   return (
     <>
       <div className="video">
@@ -22,7 +25,7 @@ export default function PaginaInicial() {
               </Link>
             </li>
             <li className="help">
-              <a href="#">
+              <a href="" onClick={alertaAjuda}>
                 <span id="letra-a">A</span>juda
               </a>
             </li>
@@ -38,7 +41,7 @@ export default function PaginaInicial() {
             Rodrigo Nascimento
           </a>
           <span> | </span>
-          <a href="https://github.com/CL0UDhxh" target="_blank">
+          <a href="https://github.com/Vampyyr" target="_blank">
             David Leonel
           </a>{" "}
         </div>

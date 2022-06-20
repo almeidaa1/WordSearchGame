@@ -69,7 +69,7 @@ function useModos({ listOfWords, setNewList, setListOfWords }) {
       case "simp": // modo simples
         setNumberOfWords(5);
         setRowsColumns(10);
-        setTimer(1); // 900
+        setTimer(900); // 900
         tempoRef.current.style.color = "#33cc33";
         palavrasRef.current.style.color = "#33cc33";
         break;
