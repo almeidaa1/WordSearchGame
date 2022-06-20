@@ -1,5 +1,6 @@
 import PaginaInicial from "./Componentes/pagina-inicial.component";
 import useModos from "./Componentes/modos.component";
+import React from "react";
 import PaginaJogo from "./Componentes/pagina-jogo-components/pagina-jogo";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { useState } from "react";
