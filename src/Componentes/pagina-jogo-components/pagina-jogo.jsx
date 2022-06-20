@@ -19,11 +19,16 @@ export default function SopaLetras({
   const [currentWordsCompleted, setCurrentWordsCompleted] = useState([]);
   const [currentTime, setCurrentTime] = useState(timer);
   const [gameEnded, setGameEnded] = useState(false);
+  const [vencedor, setVencedor] = useState(null);
   const mode = isClicked;
   if (
     (currentTime == 0 || currentWordsCompleted.length == numberOfWords) &&
     !gameEnded
   ) {
+    if (currentTime == 0) setVencedor("Perdeste !");
+    else if (currentWordsCompleted.length == numberOfWords)
+      setVencedor("Ganhaste !");
+
     setGameEnded(true);
   }
 
@@ -54,7 +59,7 @@ export default function SopaLetras({
             mode={mode}
           />
           <GameWords newList={newList} numberOfWords={numberOfWords} />
-          {gameEnded ? <JogarNovamente mode={mode} /> : null}
+          {gameEnded ? <JogarNovamente vencedor={vencedor} /> : null}
         </div>
       </div>
     </>
