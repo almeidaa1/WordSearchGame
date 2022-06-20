@@ -19,11 +19,13 @@ html {
 .letra {
   all: unset;
   color: black;
-  height: 29px;
-  width: 35px;
+  height: 23px;
+  width: 30px;
   cursor: pointer;
+  border-radius: 100%;
   font-size: 1.7vw;
   text-align: center;
+  margin: 3px;
 }
 
 .block-words {
@@ -180,5 +182,40 @@ html {
 
 .n-points {
   text-decoration: underline;
+  color: black;
+}
+
+.dragging {
+  background-color: orange;
+  color: white;
+}
+
+.voltar {
+  position: absolute;
+  clip-path: polygon(50% 0%, 25% 50%, 50% 100%, 25% 100%, 0% 50%, 25% 0%);
+  bottom: 20px;
+  left: 10px;
+  text-decoration: none;
+  color: black;
+  height: 50px;
+  background-color: black;
+  cursor: pointer;
+}
+
+.jogar-novamente {
+  position: absolute;
+  text-decoration: none;
+  bottom: 34px;
+  left: 55px;
+  font-size: 23px;
+  color: black;
+}
+
+.vencedor {
+  position: absolute;
+  text-decoration: none;
+  bottom: 180px;
+  left: 55px;
+  font-size: 23px;
   color: black;
 }

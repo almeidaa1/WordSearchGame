@@ -1,8 +1,10 @@
 import { React, useState } from "react";
+import { Link } from "react-router-dom";
 import TimerAndPoints from "./timerAndPoints";
 import GameWords from "./gameWords";
 import Canvas from "./Canvas";
 import ModoJogo from "./modoJogo";
+import JogarNovamente from "./jogarNovamente";
 import "../../estilos/styles.css";
 
 export default function SopaLetras({
@@ -23,7 +25,6 @@ export default function SopaLetras({
     !gameEnded
   ) {
     setGameEnded(true);
-    console.log("acabou");
   }
 
   return (
@@ -40,14 +41,20 @@ export default function SopaLetras({
             setCurrentTime={setCurrentTime}
             gameEnded={gameEnded}
           />
+          <Link to="/modos" className="voltar">
+            {" "}
+            afasdfafl
+          </Link>
           <Canvas
             rowsColumns={rowsColumns}
             newList={newList}
             startGame={StartGame}
             setNewList={setNewList}
             setCurrentWordsCompleted={setCurrentWordsCompleted}
+            mode={mode}
           />
           <GameWords newList={newList} numberOfWords={numberOfWords} />
+          {gameEnded ? <JogarNovamente mode={mode} /> : null}
         </div>
       </div>
     </>

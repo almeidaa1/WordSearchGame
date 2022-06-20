@@ -1,6 +1,6 @@
 body {
   overflow-x: hidden;
-  /* overflow-y: hidden; */
+  overflow-y: hidden;
   margin: 0;
   font-family: "Courier New", Courier, monospace;
 }
@@ -287,8 +287,8 @@ ul.options {
   padding: 2px 20px 2px 20px;
   cursor: pointer;
   margin-top: 13px;
-  border: 1.5px solid #e68a00;
-  color: #e68a00;
+  border: 1.5px solid #33cc33;
+  color: #33cc33;
 }
 
 .word-list {
@@ -305,3 +305,10 @@ ul.options {
   margin-top: 50px;
   list-style-type: none;
 }
+
+.popup{
+  background: black;
+  width: 100px;
+  height: 100px;
+}
+

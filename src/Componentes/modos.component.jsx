@@ -12,6 +12,9 @@ function useModos({ listOfWords, setNewList, setListOfWords }) {
   const [isClickedAddWords, setIsClickedAddWords] = useState(false);
 
   const wordRef = useRef();
+  const enterRef = useRef();
+  const palavrasRef = useRef();
+  const tempoRef = useRef();
 
   useEffect(() => {
     formatTime(timer);
@@ -66,19 +69,27 @@ function useModos({ listOfWords, setNewList, setListOfWords }) {
       case "simp": // modo simples
         setNumberOfWords(5);
         setRowsColumns(10);
-        setTimer(900); // 900
+        setTimer(1); // 900
+        tempoRef.current.style.color = "#33cc33";
+        palavrasRef.current.style.color = "#33cc33";
         break;
       case "inter": // modo intermedio
         setNumberOfWords(10);
         setRowsColumns(14);
         setTimer(600); //600
+        tempoRef.current.style.color = "#ffa31a";
+        palavrasRef.current.style.color = "#ffa31a";
         break;
       case "avan": // modo avançado
         setNumberOfWords(15);
         setRowsColumns(16);
         setTimer(300); // 300
+        tempoRef.current.style.color = "crimson";
+        palavrasRef.current.style.color = "crimson";
         break;
       default:
+        tempoRef.current.style.color = "#ffa31a";
+        palavrasRef.current.style.color = "#ffa31a";
         setNumberOfWords(0);
         setRowsColumns(0);
         setTimer(0);
@@ -124,14 +135,21 @@ function useModos({ listOfWords, setNewList, setListOfWords }) {
     switch (currentMode) {
       case "simp":
         modeButton.style.background = "#33cc33";
+        enterRef.current.style.color = "#33cc33";
+        enterRef.current.style.border = "#33cc33 2px solid";
         setColorButtonMode("#33cc33");
         break;
       case "inter":
         modeButton.style.background = "#ffa31a";
+        enterRef.current.style.color = "#ffa31a";
+        enterRef.current.style.color = "#ffa31a";
+        enterRef.current.style.border = "#ffa31a 2px solid";
         setColorButtonMode("#ffa31a");
         break;
       case "avan":
         modeButton.style.background = "crimson";
+        enterRef.current.style.color = "crimson";
+        enterRef.current.style.border = "crimson 2px solid";
         setColorButtonMode("crimson");
         break;
     }
@@ -150,6 +168,9 @@ function useModos({ listOfWords, setNewList, setListOfWords }) {
     lastModeButton.style.backgroundSize = "230px 200px";
     lastModeButton.style.backgroundPosition = "0 0";
     lastModeButton.style.color = "black";
+
+    enterRef.current.style.border = "black solid 2px";
+    enterRef.current.style.color = "black";
   };
 
   return {
@@ -241,10 +262,10 @@ function useModos({ listOfWords, setNewList, setListOfWords }) {
           </div>
           <div className={`pre-view ${isHovering ? "" : "hidden"}`}>
             <div className="info-game">
-              <span id="tempo">
+              <span id="tempo" ref={tempoRef}>
                 Tempo <span className="n-time"> {formatTimer}</span>
               </span>
-              <span id="palavras">
+              <span id="palavras" ref={palavrasRef}>
                 Palavras <span className="n-palavras"> {numberOfWords}</span>
               </span>
             </div>
@@ -260,6 +281,7 @@ function useModos({ listOfWords, setNewList, setListOfWords }) {
                 to="/Sopa-Letras"
                 className="enter-button"
                 onClick={handleEnterClick}
+                ref={enterRef}
               >
                 ENTRAR
               </Link>

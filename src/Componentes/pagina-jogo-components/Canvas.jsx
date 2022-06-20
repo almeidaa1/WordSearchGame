@@ -7,6 +7,7 @@ export default function Canvas({
   startGame,
   setNewList,
   setCurrentWordsCompleted,
+  mode, // simp, inter, avan
 }) {
   let auxRow, auxColumn;
   const abcd = "abcdefghijklmnopqrstuvwxyzç";
@@ -18,70 +19,86 @@ export default function Canvas({
   let wordChecker = [];
   const [x, setX] = useState(0);
 
+  const [alreadyAppearedBlankImg, setAlreadyAppearedBlankImg] = useState(0);
+
   useEffect(() => {
     if (x == 1) {
-      // CRIA A SOUPA DE LETRAS PREENCHENDO-A COM LETRAS
-      let canvas = canvasRef.current;
-
-      // Cria A Sopa De Letras
-      let soup = [];
-      for (let i = 0; i < rows; i++) {
-        soup[i] = [];
-        for (let j = 0; j < columns; j++) {
-          let block = document.createElement("button");
-          block.className = "letra";
-          block.addEventListener("click", (e) => handleClickLetter(e));
-          soup[i][j] = block;
-          canvas.appendChild(block);
-        }
-        let breakLine = document.createElement("br");
-        canvas.appendChild(breakLine);
-      }
-
-      // Adiciona As Palavras Do Array A Sopa
-      addWordsToSoup(soup);
-
-      // Adciciona As Letras De Forma Random Caso O Conteudo Na Html Na Posiçao Seja Vazio
-      for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < columns; j++) {
-          if (soup[i][j].innerHTML.trim() === "") {
-            let randomLetter = randomLetters();
-            soup[i][j].value = randomLetter;
-            soup[i][j].innerHTML = randomLetter;
-          }
-        }
-      }
+      createCanvas();
+      setAlreadyAppearedBlankImg(1);
     }
     setX((prevX) => prevX + 1);
   }, [startGame]);
-
-  const handleClickLetter = (e) => {
-    lettersClicked.push(e.target.value);
-    wordChecker = lettersClicked.join("");
-
-    const newStateList = [...newList];
-    const wordCompleted = newStateList.find(
-      (word) => word.name === wordChecker
-    );
-    if (wordCompleted) {
-      wordCompleted.completed = true;
-      lettersClicked = [];
-      wordChecker = [];
-      setCurrentWordsCompleted((prevCurrentWordsCompleted) => {
-        return [...prevCurrentWordsCompleted, wordCompleted.name];
-      });
-      setNewList(newStateList);
-    }
-  };
 
   // RETURNA UM VALOR RANDOM PARA SE PUDER IR A STRING ABCD E SELECIONAR ALEATORIAMENTE UMA LETRA DA STRING PARA PREENCHER A SOPA
   const randomLetters = () => {
     return abcd[Math.floor(Math.random() * abcd.length)];
   };
 
+  const onDragStart = (e) => {
+    e.target.classList.add("dragging");
+    lettersClicked.push(e.target.value);
+  };
+
+  const onDragEnd = (e) => {
+    console.log(lettersClicked);
+    console.log(wordChecker);
+    const newStateList = [...newList];
+    const wordCompleted = newStateList.find(
+      (word) => word.name === wordChecker
+    );
+    if (wordCompleted) {
+      const draggingCorret = document.querySelectorAll(".dragging");
+      draggingCorret.forEach((letter) => letter.classList.add("completed"));
+      wordCompleted.completed = true;
+      setCurrentWordsCompleted((prevCurrentWordsCompleted) => {
+        return [...prevCurrentWordsCompleted, wordCompleted.name];
+      });
+      setNewList(newStateList);
+    } else {
+      const draggingNotCorrect = document.querySelectorAll(
+        ".dragging:not(.completed)"
+      );
+      draggingNotCorrect.forEach((letter) =>
+        letter.classList.remove("dragging")
+      );
+    }
+    lettersClicked = [];
+    wordChecker = [];
+  };
+  const onDragOver = (e) => {
+    e.preventDefault();
+    if (
+      !e.target.classList.contains("dragging") ||
+      (e.target.classList.contains("completed") &&
+        !e.target.classList.contains("listen"))
+    ) {
+      if (e.target.classList.contains("completed")) {
+        e.target.classList.add("listen");
+      }
+      console.log(lettersClicked);
+      console.log(wordChecker);
+      lettersClicked.push(e.target.value);
+      wordChecker = lettersClicked.join("");
+      e.target.classList.add("dragging");
+    }
+  };
+
   // CRIA A SOUPA DE LETRAS PREENCHENDO-A COM LETRAS
   const createCanvas = () => {
     let canvas = canvasRef.current;
+
+    ///ajustar o tabuleiro consonte o nivel
+    let padding = 0;
+    switch (mode) {
+      case "simp":
+        padding = 8.7;
+        break;
+      case "inter":
+        padding = 2.07;
+        break;
+      default:
+        break;
+    }
 
     // Cria A Sopa De Letras
     let soup = [];
@@ -90,7 +107,17 @@ export default function Canvas({
       for (let j = 0; j < columns; j++) {
         let block = document.createElement("button");
         block.className = "letra";
-        block.addEventListener("click", (e) => handleClickLetter(e));
+        block.style.padding = padding + "px";
+        if (mode === "simp") {
+          block.style.paddingLeft = padding + 1.29 + "px";
+          block.style.paddingRight = padding + 1.29 + "px";
+        }
+        /* DRAG AND DROP */
+        block.setAttribute("draggable", true);
+        block.addEventListener("dragstart", (e) => onDragStart(e));
+        block.addEventListener("dragend", (e) => onDragEnd(e));
+        block.addEventListener("dragover", (e) => onDragOver(e));
+
         soup[i][j] = block;
         canvas.appendChild(block);
       }
@@ -168,7 +195,7 @@ export default function Canvas({
     // coloca as palavras da esquerda para a direita
     jogo[auxRow][auxColumn + i].value = word.name[i];
     jogo[auxRow][auxColumn + i].innerHTML = word.name[i];
-    jogo[auxRow][auxColumn + i].style.color = "green";
+    // jogo[auxRow][auxColumn + i].style.color = "green";
     return i;
   };
 
@@ -191,7 +218,7 @@ export default function Canvas({
     // coloca as palavras da direita para a esquerda
     jogo[auxRow][auxColumn - i].value = word.name[i];
     jogo[auxRow][auxColumn - i].innerHTML = word.name[i];
-    jogo[auxRow][auxColumn - i].style.color = "red";
+    // jogo[auxRow][auxColumn - i].style.color = "red";
     return i;
   };
 
@@ -214,7 +241,7 @@ export default function Canvas({
     // coloca as palavras de cima para baixo
     jogo[auxRow + i][auxColumn].value = word.name[i];
     jogo[auxRow + i][auxColumn].innerHTML = word.name[i];
-    jogo[auxRow + i][auxColumn].style.color = "blue";
+    // jogo[auxRow + i][auxColumn].style.color = "blue";
     return i;
   };
 
@@ -237,7 +264,7 @@ export default function Canvas({
     // coloca as palavras de baixo para cima
     jogo[auxRow - i][auxColumn].value = word.name[i];
     jogo[auxRow - i][auxColumn].innerHTML = word.name[i];
-    jogo[auxRow - i][auxColumn].style.color = "grey";
+    // jogo[auxRow - i][auxColumn].style.color = "grey";
     return i;
   };
 
@@ -262,7 +289,7 @@ export default function Canvas({
     // coloca as palavras da diagonal esquerda para baixo
     jogo[auxRow + i][auxColumn + i].value = word.name[i];
     jogo[auxRow + i][auxColumn + i].innerHTML = word.name[i];
-    jogo[auxRow + i][auxColumn + i].style.color = "brown";
+    // jogo[auxRow + i][auxColumn + i].style.color = "brown";
     return i;
   };
 
@@ -287,7 +314,7 @@ export default function Canvas({
     // coloca as palavras da diagonal esquerda para cima
     jogo[auxRow - i][auxColumn - i].value = word.name[i];
     jogo[auxRow - i][auxColumn - i].innerHTML = word.name[i];
-    jogo[auxRow - i][auxColumn - i].style.color = "orange";
+    // jogo[auxRow - i][auxColumn - i].style.color = "orange";
     return i;
   };
 
@@ -312,7 +339,7 @@ export default function Canvas({
     // coloca as palavras da diagonal direita para baixo
     jogo[auxRow + i][auxColumn - i].value = word.name[i];
     jogo[auxRow + i][auxColumn - i].innerHTML = word.name[i];
-    jogo[auxRow + i][auxColumn - i].style.color = "pink";
+    // jogo[auxRow + i][auxColumn - i].style.color = "pink";
     return i;
   };
 
@@ -337,15 +364,15 @@ export default function Canvas({
     // coloca as palavras da diagonal direita para cima
     jogo[auxRow - i][auxColumn + i].value = word.name[i];
     jogo[auxRow - i][auxColumn + i].innerHTML = word.name[i];
-    jogo[auxRow - i][auxColumn + i].style.color = "purple";
+    // jogo[auxRow - i][auxColumn + i].style.color = "purple";
     return i;
   };
 
   return (
     <div className="canvas" ref={canvasRef}>
-      {startGame ? null : (
+      {!startGame && !alreadyAppearedBlankImg ? (
         <img src={blankImg} alt="" width="560.017px" height="459px" />
-      )}
+      ) : null}
     </div>
   );
 }

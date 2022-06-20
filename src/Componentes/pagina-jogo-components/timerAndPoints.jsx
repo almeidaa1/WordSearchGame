@@ -27,6 +27,9 @@ function PointsSystemAndTimer({
     setCurrentTime(tempoRestante);
   }, [tempoRestante]);
 
+  if (gameEnded == 1) {
+
+  }
   /*chamar esta função sempre que se verifica a igualdade*/
   const updatePoints = () => {
     let difficulty = 0;
@@ -68,6 +71,9 @@ function PointsSystemAndTimer({
           setTempoRestante((tempoRestante -= 1));
         }
       }, 1000);
+    } else {
+      setStartGame(false);
+      setClikedStart(false);
     }
   };
 
